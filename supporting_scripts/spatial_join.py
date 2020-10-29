@@ -69,7 +69,7 @@ with open("../data/final_cleveland_neighborhoods.geojson", 'w') as f:
 	json.dump(geojson_data, f)
 
 
-with open("../static/data/leveland_neighborhoods.geojson", 'w') as f:
+with open("../static/data/cleveland_neighborhoods.geojson", 'w') as f:
 	json.dump(geojson_data, f)
 
 

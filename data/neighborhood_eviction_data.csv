@@ -1,226 +1,226 @@
 ,Neighborhood,Year,Eviction Filing Count
-0,Bellaire-Puritas,2014,179
+0,Bellaire-Puritas,2014,282
 1,Bellaire-Puritas,2015,149
 2,Bellaire-Puritas,2016,224
 3,Bellaire-Puritas,2017,233
-4,Bellaire-Puritas,2018,175
-5,Bellaire-Puritas,2019,168
-6,Bellaire-Puritas,2020,61
-7,Broadway-Slavic Village,2014,392
+4,Bellaire-Puritas,2018,178
+5,Bellaire-Puritas,2019,169
+6,Bellaire-Puritas,2020,63
+7,Broadway-Slavic Village,2014,642
 8,Broadway-Slavic Village,2015,319
 9,Broadway-Slavic Village,2016,574
 10,Broadway-Slavic Village,2017,497
-11,Broadway-Slavic Village,2018,506
-12,Broadway-Slavic Village,2019,557
-13,Broadway-Slavic Village,2020,192
-14,Brooklyn Centre,2014,173
+11,Broadway-Slavic Village,2018,514
+12,Broadway-Slavic Village,2019,563
+13,Broadway-Slavic Village,2020,199
+14,Brooklyn Centre,2014,249
 15,Brooklyn Centre,2015,138
 16,Brooklyn Centre,2016,302
 17,Brooklyn Centre,2017,275
 18,Brooklyn Centre,2018,255
-19,Brooklyn Centre,2019,225
-20,Brooklyn Centre,2020,92
-21,Buckeye-Shaker,2014,202
+19,Brooklyn Centre,2019,227
+20,Brooklyn Centre,2020,93
+21,Buckeye-Shaker,2014,354
 22,Buckeye-Shaker,2015,218
 23,Buckeye-Shaker,2016,356
 24,Buckeye-Shaker,2017,325
 25,Buckeye-Shaker,2018,317
-26,Buckeye-Shaker,2019,312
-27,Buckeye-Shaker,2020,126
-28,Central,2014,558
+26,Buckeye-Shaker,2019,324
+27,Buckeye-Shaker,2020,130
+28,Central,2014,840
 29,Central,2015,548
 30,Central,2016,618
 31,Central,2017,436
-32,Central,2018,285
+32,Central,2018,287
 33,Central,2019,223
 34,Central,2020,58
-35,Clark-Fulton,2014,145
+35,Clark-Fulton,2014,218
 36,Clark-Fulton,2015,136
 37,Clark-Fulton,2016,218
 38,Clark-Fulton,2017,186
 39,Clark-Fulton,2018,166
-40,Clark-Fulton,2019,161
-41,Clark-Fulton,2020,58
-42,Cudell,2014,203
+40,Clark-Fulton,2019,164
+41,Clark-Fulton,2020,59
+42,Cudell,2014,333
 43,Cudell,2015,194
 44,Cudell,2016,279
 45,Cudell,2017,276
-46,Cudell,2018,314
-47,Cudell,2019,325
-48,Cudell,2020,122
-49,Cuyahoga Valley,2014,184
+46,Cudell,2018,315
+47,Cudell,2019,336
+48,Cudell,2020,123
+49,Cuyahoga Valley,2014,267
 50,Cuyahoga Valley,2015,108
 51,Cuyahoga Valley,2016,220
 52,Cuyahoga Valley,2017,176
-53,Cuyahoga Valley,2018,176
+53,Cuyahoga Valley,2018,177
 54,Cuyahoga Valley,2019,142
-55,Cuyahoga Valley,2020,71
-56,Detroit Shoreway,2014,187
+55,Cuyahoga Valley,2020,77
+56,Detroit Shoreway,2014,289
 57,Detroit Shoreway,2015,148
 58,Detroit Shoreway,2016,297
 59,Detroit Shoreway,2017,260
 60,Detroit Shoreway,2018,184
-61,Detroit Shoreway,2019,174
-62,Detroit Shoreway,2020,70
-63,Downtown,2014,196
+61,Detroit Shoreway,2019,176
+62,Detroit Shoreway,2020,73
+63,Downtown,2014,290
 64,Downtown,2015,115
 65,Downtown,2016,305
 66,Downtown,2017,224
 67,Downtown,2018,232
 68,Downtown,2019,269
-69,Downtown,2020,108
-70,Edgewater,2014,140
+69,Downtown,2020,109
+70,Edgewater,2014,220
 71,Edgewater,2015,126
 72,Edgewater,2016,166
 73,Edgewater,2017,175
 74,Edgewater,2018,144
 75,Edgewater,2019,101
-76,Edgewater,2020,32
-77,Euclid-Green,2014,94
+76,Edgewater,2020,33
+77,Euclid-Green,2014,132
 78,Euclid-Green,2015,85
 79,Euclid-Green,2016,137
 80,Euclid-Green,2017,127
-81,Euclid-Green,2018,119
+81,Euclid-Green,2018,121
 82,Euclid-Green,2019,98
-83,Euclid-Green,2020,42
-84,Fairfax,2014,68
+83,Euclid-Green,2020,44
+84,Fairfax,2014,101
 85,Fairfax,2015,66
 86,Fairfax,2016,108
 87,Fairfax,2017,123
-88,Fairfax,2018,128
-89,Fairfax,2019,104
-90,Fairfax,2020,58
-91,Glenville,2014,421
+88,Fairfax,2018,130
+89,Fairfax,2019,106
+90,Fairfax,2020,60
+91,Glenville,2014,660
 92,Glenville,2015,309
 93,Glenville,2016,499
 94,Glenville,2017,471
 95,Glenville,2018,505
-96,Glenville,2019,513
-97,Glenville,2020,187
-98,Goodrich-Kirtland Park,2014,66
+96,Glenville,2019,519
+97,Glenville,2020,197
+98,Goodrich-Kirtland Park,2014,100
 99,Goodrich-Kirtland Park,2015,54
 100,Goodrich-Kirtland Park,2016,104
 101,Goodrich-Kirtland Park,2017,78
 102,Goodrich-Kirtland Park,2018,82
-103,Goodrich-Kirtland Park,2019,74
-104,Goodrich-Kirtland Park,2020,47
-105,Hough,2014,244
+103,Goodrich-Kirtland Park,2019,75
+104,Goodrich-Kirtland Park,2020,51
+105,Hough,2014,420
 106,Hough,2015,234
 107,Hough,2016,263
 108,Hough,2017,295
 109,Hough,2018,242
-110,Hough,2019,250
-111,Hough,2020,50
-112,Jefferson,2014,137
+110,Hough,2019,257
+111,Hough,2020,52
+112,Jefferson,2014,225
 113,Jefferson,2015,127
 114,Jefferson,2016,222
 115,Jefferson,2017,235
 116,Jefferson,2018,194
-117,Jefferson,2019,198
-118,Jefferson,2020,86
-119,Kamm's Corner,2014,174
+117,Jefferson,2019,199
+118,Jefferson,2020,89
+119,Kamm's Corner,2014,286
 120,Kamm's Corner,2015,144
 121,Kamm's Corner,2016,183
 122,Kamm's Corner,2017,181
 123,Kamm's Corner,2018,135
 124,Kamm's Corner,2019,162
-125,Kamm's Corner,2020,68
-126,Kinsman,2014,111
+125,Kamm's Corner,2020,69
+126,Kinsman,2014,165
 127,Kinsman,2015,82
 128,Kinsman,2016,186
 129,Kinsman,2017,159
 130,Kinsman,2018,100
 131,Kinsman,2019,136
-132,Kinsman,2020,41
-133,Lee Miles,2014,105
+132,Kinsman,2020,43
+133,Lee Miles,2014,159
 134,Lee Miles,2015,97
 135,Lee Miles,2016,148
 136,Lee Miles,2017,166
 137,Lee Miles,2018,167
-138,Lee Miles,2019,167
-139,Lee Miles,2020,81
-140,Mt. Pleasant,2014,309
+138,Lee Miles,2019,171
+139,Lee Miles,2020,82
+140,Mt. Pleasant,2014,495
 141,Mt. Pleasant,2015,268
 142,Mt. Pleasant,2016,438
 143,Mt. Pleasant,2017,442
-144,Mt. Pleasant,2018,425
-145,Mt. Pleasant,2019,434
-146,Mt. Pleasant,2020,186
-147,North Collinwood,2014,310
+144,Mt. Pleasant,2018,428
+145,Mt. Pleasant,2019,448
+146,Mt. Pleasant,2020,194
+147,North Collinwood,2014,441
 148,North Collinwood,2015,230
 149,North Collinwood,2016,400
 150,North Collinwood,2017,357
-151,North Collinwood,2018,375
-152,North Collinwood,2019,370
-153,North Collinwood,2020,136
-154,Ohio City,2014,302
+151,North Collinwood,2018,381
+152,North Collinwood,2019,377
+153,North Collinwood,2020,138
+154,Ohio City,2014,454
 155,Ohio City,2015,236
 156,Ohio City,2016,340
 157,Ohio City,2017,200
 158,Ohio City,2018,124
-159,Ohio City,2019,114
-160,Ohio City,2020,41
-161,Old Brooklyn,2014,320
+159,Ohio City,2019,115
+160,Ohio City,2020,42
+161,Old Brooklyn,2014,517
 162,Old Brooklyn,2015,314
 163,Old Brooklyn,2016,514
 164,Old Brooklyn,2017,448
-165,Old Brooklyn,2018,442
-166,Old Brooklyn,2019,472
-167,Old Brooklyn,2020,172
+165,Old Brooklyn,2018,443
+166,Old Brooklyn,2019,477
+167,Old Brooklyn,2020,176
 168,Riverside,2016,1
-169,South Collinwood,2014,260
+169,South Collinwood,2014,401
 170,South Collinwood,2015,209
 171,South Collinwood,2016,315
 172,South Collinwood,2017,309
-173,South Collinwood,2018,335
-174,South Collinwood,2019,310
-175,South Collinwood,2020,153
-176,St. Clair-Superior,2014,132
+173,South Collinwood,2018,337
+174,South Collinwood,2019,313
+175,South Collinwood,2020,164
+176,St. Clair-Superior,2014,193
 177,St. Clair-Superior,2015,94
 178,St. Clair-Superior,2016,162
 179,St. Clair-Superior,2017,143
 180,St. Clair-Superior,2018,139
-181,St. Clair-Superior,2019,124
-182,St. Clair-Superior,2020,59
-183,Stockyards,2014,209
+181,St. Clair-Superior,2019,126
+182,St. Clair-Superior,2020,60
+183,Stockyards,2014,312
 184,Stockyards,2015,161
 185,Stockyards,2016,297
 186,Stockyards,2017,243
 187,Stockyards,2018,205
 188,Stockyards,2019,207
-189,Stockyards,2020,85
-190,Tremont,2014,85
+189,Stockyards,2020,91
+190,Tremont,2014,132
 191,Tremont,2015,65
 192,Tremont,2016,142
 193,Tremont,2017,108
 194,Tremont,2018,111
-195,Tremont,2019,86
-196,Tremont,2020,26
-197,Union-Miles,2014,227
+195,Tremont,2019,87
+196,Tremont,2020,27
+197,Union-Miles,2014,374
 198,Union-Miles,2015,191
 199,Union-Miles,2016,316
 200,Union-Miles,2017,346
-201,Union-Miles,2018,342
-202,Union-Miles,2019,365
-203,Union-Miles,2020,134
-204,University District,2014,59
+201,Union-Miles,2018,344
+202,Union-Miles,2019,370
+203,Union-Miles,2020,137
+204,University District,2014,85
 205,University District,2015,52
 206,University District,2016,91
 207,University District,2017,78
 208,University District,2018,63
 209,University District,2019,53
 210,University District,2020,9
-211,West Boulevard,2014,330
+211,West Boulevard,2014,517
 212,West Boulevard,2015,283
 213,West Boulevard,2016,432
 214,West Boulevard,2017,448
 215,West Boulevard,2018,401
-216,West Boulevard,2019,388
-217,West Boulevard,2020,189
-218,Woodland Hills,2014,201
+216,West Boulevard,2019,391
+217,West Boulevard,2020,190
+218,Woodland Hills,2014,306
 219,Woodland Hills,2015,174
 220,Woodland Hills,2016,226
 221,Woodland Hills,2017,185
 222,Woodland Hills,2018,178
-223,Woodland Hills,2019,146
-224,Woodland Hills,2020,43
+223,Woodland Hills,2019,147
+224,Woodland Hills,2020,49

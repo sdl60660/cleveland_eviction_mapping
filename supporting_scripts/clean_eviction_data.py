@@ -2,7 +2,7 @@
 import csv
 
 
-with open('../data/eviction_data.csv', 'r') as f:
+with open('../data/supplementary_eviction_data.csv', 'r') as f:
 	eviction_data = [x for x in csv.DictReader(f)]
 
 cleaned_data = {}
@@ -10,14 +10,15 @@ for case in eviction_data:
 	if "EVICTION" in case['Action']:
 		case['Property City'] = case['Property City'].strip()
 		case['Plaintiff City'] = case['Plaintiff City'].strip()
-		del case['']
+		if '' in case.keys():
+			del case['']
 
 		cleaned_data[case['Case Number']] = case
 
 cleaned_data = list(cleaned_data.values())
 fields = list(cleaned_data[0].keys())
 
-with open('../data/cleaned_eviction_data.csv', 'w') as f:
+with open('../data/supplementary_cleaned_eviction_data.csv', 'w') as f:
 	out_csv = csv.DictWriter(f, fieldnames=fields)
 	out_csv.writeheader()
 

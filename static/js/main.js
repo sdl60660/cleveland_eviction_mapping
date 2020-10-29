@@ -9,6 +9,9 @@ const phoneBrowsingCutoff = 1100;
 let geoData = null;
 let zillowData = null;
 
+// Init Data
+let currentYear = 2019;
+
 // ======== END GLOBALS ======== //
 
 // Determine whether to enter phoneBrowsing mode based on browser window width or browser type (uses phoneBrowsingCutoff as threshold of window width)
@@ -50,50 +53,24 @@ function initSliders() {
 
     const updateSliderLabel = (sliderID, sliderVal) => {
         const range = document.getElementById(sliderID);
-        const rangeLabel = document.getElementById(`${sliderID}-slider-label`);
+        const rangeLabel = document.getElementById(`year-slider-label`);
 
-        if (sliderID === "min-donor-threshold-network") {
-            rangeLabel.innerHTML = `<span>${d3.format(",")(sliderVal)}</span>`;
-        }
-        else {
-            rangeLabel.innerHTML = `<span>${sliderVal}%</span>`;
-        }
+        rangeLabel.innerHTML = `<span>${sliderVal}</span>`;
 
-        const newVal = Number(((sliderVal - range.min) * 100) / (range.max - range.min));
+        const newVal = Number((sliderVal - range.min) * 100 / (range.max - range.min));
         rangeLabel.style.left = `calc(${newVal}% + (${8 - newVal * 0.15}px))`;
     };
 
-    $("#min-overlap-threshold").on('input', () => {
-        const range = document.getElementById('min-overlap-threshold');
+    $("#year-slider").on('input', () => {
+        const range = document.getElementById('year-slider');
 
-        overlapThreshold = range.value;
-        nodeLink.wrangleData();
+        currentYear = range.value;
+        evictionMap.wrangleData();
 
-        updateSliderLabel("min-overlap-threshold", overlapThreshold);
+        updateSliderLabel("year-slider", currentYear);
     });
 
-    $("#min-overlap-network").on('input', () => {
-        const range = document.getElementById('min-overlap-network');
-
-        overlapThresholdNewtork = range.value;
-        networkChart.wrangleData();
-
-        updateSliderLabel("min-overlap-network", overlapThresholdNewtork);
-    });
-
-
-    $("#min-donor-threshold-network").on('input', () => {
-        const range = document.getElementById('min-donor-threshold-network');
-
-        minDonorCountNetwork = range.value;
-        networkChart.wrangleData();
-
-        updateSliderLabel("min-donor-threshold-network", minDonorCountNetwork);
-    });
-
-    updateSliderLabel("min-overlap-threshold", overlapThreshold);
-    updateSliderLabel("min-overlap-network", overlapThresholdNewtork);
-    updateSliderLabel("min-donor-threshold-network", minDonorCountNetwork);
+    updateSliderLabel("year-slider", currentYear);
 }
 
 
@@ -118,9 +95,9 @@ function main() {
         $("#intro-wrapper, #map-wrapper, .footer")
             .css("visibility", "visible");
 
-        evictionMap = new NeighborhoodMap("#eviction-map-area");
-        housingValueMap = new NeighborhoodMap("#housing-value-map-area");
-        // initSliders();
+        evictionMap = new NeighborhoodMap("#eviction-map-area", "evictions");
+        housingValueMap = new NeighborhoodMap("#housing-value-map-area", "property_values");
+        initSliders();
     });
 }
 

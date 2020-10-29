@@ -1,7 +1,8 @@
 // d3 = require("d3@5");
 
-NeighborhoodMap = function(_parentElement) {
+NeighborhoodMap = function(_parentElement, _mapType) {
     this.parentElement = _parentElement;
+    this.mapType = _mapType;
 
     this.initVis();
 };
@@ -47,11 +48,10 @@ NeighborhoodMap.prototype.initVis = function() {
         .attr("class", "d3-tip")
         // .offset([-15, 0])
         .html((d) => {
-            let currentYear = "2019";
 
             let outputString = '<div>';
             outputString += `<div style="text-align: center;"><span><strong>${d.properties.SPA_NAME}</strong></span></div><br>`;
-            outputString += `<span>Population: </span> <span style="float: right;">${d.properties.population}</span><br>`;
+            outputString += `<span>Population: </span> <span style="float: right;">${d3.format(",")(d.properties.population)}</span><br>`;
             outputString += `<span>Eviction Filings (${currentYear}): </span> <span style="float: right;">${d.properties.eviction_filings[currentYear]}</span><br>`;
             outputString += `<span>Per 1,000 Residents: </span> <span style="float: right;">${d3.format("0.1f")(1000*d.properties.eviction_filings[currentYear] / d.properties.population)}</span><br>`;
 
@@ -62,47 +62,9 @@ NeighborhoodMap.prototype.initVis = function() {
         });
     vis.svg.call(vis.tip);
 
-
-    vis.color
-        .domain(d3.extent(geoData.features, d => d.properties.eviction_filings["2019"] / d.properties.population));
-
-
     vis.mapPath = vis.g.append("g")
         .attr("class", "neighborhood-path")
-        .selectAll("path")
-        .data( geoData.features, d => d.properties.SPA_NAME)
-        .join(
-            enter => enter.append("path")
-                .attr("d", vis.path)
-                .attr("class", d => d.properties.SPA_NAME.replace(/ /g, '-').replace('.', '-'))
-                .style("opacity", 0.8)
-                .style("stroke","black")
-                .style('stroke-width', 0.5)
-                .style("fill", d => (typeof d.properties.eviction_filings["2019"] === "undefined" || typeof d.properties.population === "undefined") ? "#DCDCDC" : vis.color(d.properties.eviction_filings["2019"] / d.properties.population))
-                .on('mouseover', d => {
-                    vis.tip.show(d);
-
-                    console.log(d.properties.SPA_NAME.replace(/ /g, '-'));
-
-                    d3.selectAll('.' + d.properties.SPA_NAME.replace(/ /g, '-').replace('.', '-'))
-                        .style("opacity", 1)
-                        .style("stroke","black")
-                        .style("stroke-width", 3.0);
-                })
-                .on('mouseout', d => {
-                    vis.tip.hide(d);
-
-                    d3.selectAll('.' + d.properties.SPA_NAME.replace(/ /g, '-').replace('.', '-'))
-                        .style("opacity", 0.8)
-                        .style("stroke","black")
-                        .style("stroke-width", 0.5);
-                }),
-
-            exit => exit.remove()
-            );
-
-
-
+        .selectAll("path");
 
     vis.wrangleData();
 };
@@ -116,5 +78,45 @@ NeighborhoodMap.prototype.wrangleData = function() {
 
 NeighborhoodMap.prototype.updateVis = function() {
     const vis = this;
+
+    vis.color
+        .domain(d3.extent(geoData.features, d => d.properties.eviction_filings[currentYear] / d.properties.population));
+
+    vis.mapPath = vis.mapPath
+        .data( geoData.features, (d) => d.properties.SPA_NAME)
+        .join(
+            enter => enter.append("path")
+                .attr("d", vis.path)
+                .attr("class", d => d.properties.SPA_NAME.replace(/ /g, '-').replace('.', '-').replace("'", "-"))
+                .style("opacity", 0.8)
+                .style("stroke","black")
+                .style('stroke-width', 0.5)
+                .style("fill", d => (typeof d.properties.eviction_filings[currentYear] === "undefined" || typeof d.properties.population === "undefined") ? "#DCDCDC" : vis.color(d.properties.eviction_filings[currentYear] / d.properties.population))
+                .on('mouseover', d => {
+                    vis.tip.show(d);
+
+                    console.log(d.properties.SPA_NAME.replace(/ /g, '-'));
+
+                    d3.selectAll('.' + d.properties.SPA_NAME.replace(/ /g, '-').replace('.', '-').replace("'", "-"))
+                        .style("opacity", 1)
+                        .style("stroke","black")
+                        .style("stroke-width", 3.0);
+                })
+                .on('mouseout', d => {
+                    vis.tip.hide(d);
+
+                    d3.selectAll('.' + d.properties.SPA_NAME.replace(/ /g, '-').replace('.', '-').replace("'", "-"))
+                        .style("opacity", 0.8)
+                        .style("stroke","black")
+                        .style("stroke-width", 0.5);
+                }),
+
+            update => update
+                .transition()
+                .duration(200)
+                .style("fill", d => (typeof d.properties.eviction_filings[currentYear] === "undefined" || typeof d.properties.population === "undefined") ? "#DCDCDC" : vis.color(d.properties.eviction_filings[currentYear] / d.properties.population)),
+
+            exit => exit.remove()
+            );
 
 };

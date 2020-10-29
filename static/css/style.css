@@ -136,8 +136,8 @@ strong {
     /*padding-bottom: 3px;*/
 
     min-width: 30px;
-    padding-left: 2px;
-    padding-right: 2px;
+    padding-left: 4px;
+    padding-right: 4px;
     height: 26px;
     line-height: 24px;
 
@@ -163,6 +163,14 @@ strong {
     padding: 0;
     text-align: center;
     height: 100%;
+
+    /*max-width: 300px;*/
+    /*margin: auto;*/
+
+}
+
+#year-slider {
+    
 }
 
 

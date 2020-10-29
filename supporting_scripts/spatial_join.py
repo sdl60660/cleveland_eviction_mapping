@@ -69,6 +69,10 @@ with open("../data/final_cleveland_neighborhoods.geojson", 'w') as f:
 	json.dump(geojson_data, f)
 
 
+with open("../static/data/leveland_neighborhoods.geojson", 'w') as f:
+	json.dump(geojson_data, f)
+
+
 
 # Merge this data back to the original neighborhood geodata
 # merged_areas = neighborhoods.merge(df, on='SPA_NAME', how='outer')

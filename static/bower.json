@@ -1,0 +1,23 @@
+{
+  "name": "philly_policing",
+  "homepage": "https://github.com/sdl60660/philly_policy_complaints",
+  "authors": [
+    "sdl60660 <learnersd@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "chosen": "^1.8.7",
+    "jquery": "^3.5.1",
+    "jquery-ui": "^1.12.1"
+  }
+}

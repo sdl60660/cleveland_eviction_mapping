@@ -11,12 +11,12 @@ NeighborhoodMap.prototype.initVis = function() {
     const vis = this;
 
     // Set height/width of viewBox
-    vis.width = 1800;
-    vis.height = 1200;
+    vis.width = 1200;
+    vis.height = 800;
 
     if (phoneBrowsing === true) {
-        vis.width = 1800;
-        vis.height = 1200;
+        vis.width = 800;
+        vis.height = 800;
     }
 
     // Initialize SVG
@@ -28,7 +28,7 @@ NeighborhoodMap.prototype.initVis = function() {
         .append('g')
             .attr('class', 'map');
 
-    vis.color = d3.scaleLog()
+    vis.color = d3.scaleLinear()
         .range(['#FFE4B2', 'orange']);
 
     vis.projection = d3.geoAlbersUsa()
@@ -46,10 +46,15 @@ NeighborhoodMap.prototype.initVis = function() {
     vis.tip = d3.tip()
         .attr("class", "d3-tip")
         // .offset([-15, 0])
-        .html(function(d) {
+        .html((d) => {
+            let currentYear = "2019";
+
             let outputString = '<div>';
-            // outputString += `<div style="text-align: center;"><span><strong>${d.display_name}</strong></span></div><br>`;
-            // outputString += `<span>Known Donors: </span> <span style="float: right;">${d3.format(",")(d.total_donors)}</span><br>`;
+            outputString += `<div style="text-align: center;"><span><strong>${d.properties.SPA_NAME}</strong></span></div><br>`;
+            outputString += `<span>Population: </span> <span style="float: right;">${d.properties.population}</span><br>`;
+            outputString += `<span>Eviction Filings (${currentYear}): </span> <span style="float: right;">${d.properties.eviction_filings[currentYear]}</span><br>`;
+            outputString += `<span>Per 1,000 Residents: </span> <span style="float: right;">${d3.format("0.1f")(1000*d.properties.eviction_filings[currentYear] / d.properties.population)}</span><br>`;
+
 
             outputString += '</div>';
 
@@ -59,7 +64,7 @@ NeighborhoodMap.prototype.initVis = function() {
 
 
     vis.color
-        .domain(d3.extent(geoData.features, d => d.properties.eviction_filings["2018"] / d.properties.population));
+        .domain(d3.extent(geoData.features, d => d.properties.eviction_filings["2019"] / d.properties.population));
 
 
     vis.mapPath = vis.g.append("g")
@@ -69,12 +74,29 @@ NeighborhoodMap.prototype.initVis = function() {
         .join(
             enter => enter.append("path")
                 .attr("d", vis.path)
-                .attr("class", d => d.properties.SPA_NAME.replace(/ /g, '-'))
-                .attr("default-stroke", 0.3)
+                .attr("class", d => d.properties.SPA_NAME.replace(/ /g, '-').replace('.', '-'))
                 .style("opacity", 0.8)
                 .style("stroke","black")
-                .style('stroke-width', 0.3)
-                .style("fill", d => vis.color(d.properties.eviction_filings["2018"] / d.properties.population)),
+                .style('stroke-width', 0.5)
+                .style("fill", d => (typeof d.properties.eviction_filings["2019"] === "undefined" || typeof d.properties.population === "undefined") ? "#DCDCDC" : vis.color(d.properties.eviction_filings["2019"] / d.properties.population))
+                .on('mouseover', d => {
+                    vis.tip.show(d);
+
+                    console.log(d.properties.SPA_NAME.replace(/ /g, '-'));
+
+                    d3.selectAll('.' + d.properties.SPA_NAME.replace(/ /g, '-').replace('.', '-'))
+                        .style("opacity", 1)
+                        .style("stroke","black")
+                        .style("stroke-width", 3.0);
+                })
+                .on('mouseout', d => {
+                    vis.tip.hide(d);
+
+                    d3.selectAll('.' + d.properties.SPA_NAME.replace(/ /g, '-').replace('.', '-'))
+                        .style("opacity", 0.8)
+                        .style("stroke","black")
+                        .style("stroke-width", 0.5);
+                }),
 
             exit => exit.remove()
             );

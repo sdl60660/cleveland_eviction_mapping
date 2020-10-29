@@ -99,12 +99,24 @@
     <div class="spacer"></div>
 
     <div class="container viz-tile" id="map-tile">
-        <div class="row" style="margin-top: 4vh">
-            <div class="col-md-1"></div>
-            <div class="col-md-10 viz-area">
-                <div class="row" id="map-area" style="max-height: 67vh"></div>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 slider-div">
+                <span style="margin-bottom: 5px;">Year:</span>
+                <div class="range-value" id="year-slider-label"></div>
+                <input type="range" id="year-slider" name="year-select" min="2014" max="2020" step="1" value="2014">
             </div>
-            <div class="col-md-1"></div>
+            <div class="col-md-3"></div>
+        </div>
+        <div class="row" style="margin-top: 4vh">
+            <!-- <div class="col-md-1"></div> -->
+            <div class="col-md-6 viz-area">
+                <div class="row" id="eviction-map-area" style="max-height: 67vh"></div>
+            </div>
+            <div class="col-md-6 viz-area">
+                <div class="row" id="housing-value-map-area" style="max-height: 67vh"></div>
+            </div>
+            <!-- <div class="col-md-1"></div> -->
         </div>
     </div>
     </div>
@@ -113,32 +125,32 @@
 
     <!-- Footer  -->
     <div class="container footer" style="text-align:left; max-width: 950px; z-index: 200; margin: auto; visibility: hidden;">
-            <div class="col-md-1"></div>
-            <div class="col-md-10">
-                <hr>
-                <br>
-                <p>Visualization by <a href="http://www.samlearner.com/">Sam Learner</a> | <a href="mailto:learnersd@gmail.com"><img class="icon-img" src="/static/images/email.svg"></a> | <a href="https://twitter.com/sam_learner"><img class="icon-img" src="/static/images/twitter.svg"></a> | <a href="https://github.com/sdl60660"><img class="icon-img" src="/static/images/github.png"></a></p>
-                <!-- Github repo link <p>Code and data for this project lives <a href="">here</a>.</p> -->
-                
-                <!--<p><strong>Further Reading</strong></p>-->
-                <!--<ul style="margin-left:-20px;">-->
-                    <!--<li><a href=""></a></li>-->
-                    <!--<li><a href=""></a></li>-->
-                    <!--<li><a href=""></a></li>-->
-                <!--</ul>-->
-                <!--<br>-->
-                <p><strong>Notes</strong></p>
-                <p>
-                    [No notes yet]
-                </p>
-                <p><strong>Sources</strong></p>
-                <p>
-                    Data scraped from Cleveland Municipal Court filings. Population data came from Statistical Atlas [link]. Cleveland neighborhood shape file came from here (https://www.arcgis.com/home/item.html?id=80205c01f83f4fad840906e4f6072ad5).
-                </p>
-                <!-- <p>Last Updated: July 2020</p> -->
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <hr>
+            <br>
+            <p>Visualization by <a href="http://www.samlearner.com/">Sam Learner</a> | <a href="mailto:learnersd@gmail.com"><img class="icon-img" src="/static/images/email.svg"></a> | <a href="https://twitter.com/sam_learner"><img class="icon-img" src="/static/images/twitter.svg"></a> | <a href="https://github.com/sdl60660"><img class="icon-img" src="/static/images/github.png"></a></p>
+            <!-- Github repo link <p>Code and data for this project lives <a href="">here</a>.</p> -->
+            
+            <!--<p><strong>Further Reading</strong></p>-->
+            <!--<ul style="margin-left:-20px;">-->
+                <!--<li><a href=""></a></li>-->
+                <!--<li><a href=""></a></li>-->
+                <!--<li><a href=""></a></li>-->
+            <!--</ul>-->
+            <!--<br>-->
+            <p><strong>Notes</strong></p>
+            <p>
+                [No notes yet]
+            </p>
+            <p><strong>Sources</strong></p>
+            <p>
+                Data scraped from Cleveland Municipal Court filings. Population data came from Statistical Atlas [link]. Cleveland neighborhood shape file came from here (https://www.arcgis.com/home/item.html?id=80205c01f83f4fad840906e4f6072ad5).
+            </p>
+            <!-- <p>Last Updated: July 2020</p> -->
 
-            </div>
-            <div class="col-md-1"></div>
+        </div>
+        <div class="col-md-1"></div>
     </div>
 
 

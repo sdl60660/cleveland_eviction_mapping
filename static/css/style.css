@@ -246,8 +246,8 @@ strong {
 
 
 .d3-tip {
-    min-width: 220px;
-    max-width: 480px;
+  min-width: 320px;
+  max-width: 480px;
 	background-color: white;
 	color: black;
 	border-radius: 5px;

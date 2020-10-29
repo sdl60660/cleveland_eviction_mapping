@@ -115,10 +115,11 @@ function main() {
         $(".loadring-container")
             .hide();
 
-        $("#intro-wrapper, #map-wrapper")
+        $("#intro-wrapper, #map-wrapper, .footer")
             .css("visibility", "visible");
 
-        evictionMap = new NeighborhoodMap("#map-area");
+        evictionMap = new NeighborhoodMap("#eviction-map-area");
+        housingValueMap = new NeighborhoodMap("#housing-value-map-area");
         // initSliders();
     });
 }

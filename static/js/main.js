@@ -98,9 +98,14 @@ function main() {
             .css("visibility", "visible");
 
         evictionMap = new NeighborhoodMap("#eviction-map-area", "evictions");
-        compareMap = new NeighborhoodMap("#compare-map-area", "property_values");
+        compareMap = new NeighborhoodMap("#compare-map-area", "compare");
 
         initSliders();
+
+        $("#feature-select")
+            .on("change", () => {
+                compareMap.wrangleData();
+            })
     });
 }
 

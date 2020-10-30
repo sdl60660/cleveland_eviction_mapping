@@ -50,7 +50,7 @@ NeighborhoodMap.prototype.initVis = function() {
             }
             else {
                 outputString += `<span>Population: </span> <span style="float: right;">${d3.format(",")(d.properties.pop)}</span><br>`;
-                outputString += `<span>Households: </span> <span style="float: right;">${d3.format(",")(d.properties.total_HH)}</span><br>`;
+                outputString += `<span>Households: </span> <span style="float: right;">${d3.format(",")(d.properties.pop)}</span><br>`;
                 outputString += `<span>Eviction Filings (${currentYear}): </span> <span style="float: right;">${d.properties.eviction_filings[currentYear]}</span><br>`;
                 outputString += `<span>Per 1,000 Households: </span> <span style="float: right;">${d3.format("0.1f")(1000*d.properties.eviction_filings[currentYear] / d.properties.total_HH)}</span><br>`;
             }
@@ -121,8 +121,8 @@ NeighborhoodMap.prototype.updateVis = function() {
                     let evictionNode = evictionMap.svg.select('.' + d.properties.SPA_NAME.replace(/ /g, '-').replace('.', '-').replace("'", "-")).node();
                     evictionMap.tip.show(d, evictionNode);
 
-                    let housingValueNode = housingValueMap.svg.select('.' + d.properties.SPA_NAME.replace(/ /g, '-').replace('.', '-').replace("'", "-")).node();
-                    housingValueMap.tip.show(d,housingValueNode);
+                    let compareNode = compareMap.svg.select('.' + d.properties.SPA_NAME.replace(/ /g, '-').replace('.', '-').replace("'", "-")).node();
+                    compareMap.tip.show(d,compareNode);
 
                     d3.selectAll('.' + d.properties.SPA_NAME.replace(/ /g, '-').replace('.', '-').replace("'", "-"))
                         .style("opacity", 1)
@@ -131,7 +131,7 @@ NeighborhoodMap.prototype.updateVis = function() {
                 })
                 .on('mouseout', d => {
                     evictionMap.tip.hide();
-                    housingValueMap.tip.hide();
+                    compareMap.tip.hide();
 
                     d3.selectAll('.' + d.properties.SPA_NAME.replace(/ /g, '-').replace('.', '-').replace("'", "-"))
                         .style("opacity", 0.8)

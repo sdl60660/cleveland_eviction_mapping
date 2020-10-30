@@ -67,7 +67,7 @@ function initSliders() {
         currentYear = range.value;
 
         evictionMap.wrangleData();
-        housingValueMap.wrangleData();
+        compareMap.wrangleData();
 
         updateSliderLabel("year-slider", currentYear);
     });
@@ -98,7 +98,7 @@ function main() {
             .css("visibility", "visible");
 
         evictionMap = new NeighborhoodMap("#eviction-map-area", "evictions");
-        housingValueMap = new NeighborhoodMap("#housing-value-map-area", "property_values");
+        compareMap = new NeighborhoodMap("#compare-map-area", "property_values");
 
         initSliders();
     });

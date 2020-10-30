@@ -25,22 +25,14 @@ NeighborhoodMap.prototype.initVis = function() {
         .append("svg")
         .attr("viewBox", [0, 0, vis.width, vis.height]);
 
-    vis.g = vis.svg
-        .append('g')
-            .attr('class', 'map');
-
     vis.color = d3.scaleLinear()
         .range(['#FFE4B2', 'orange']);
 
     vis.projection = d3.geoAlbersUsa()
-        // .center([-81.6944, 41.4993])
-        // .scale(1000)
         .fitExtent([[20, 20], [vis.width-20, vis.height-20]], geoData);
 
-    // vis.projection
-        // .translate([(vis.width / 2) + 10, (vis.height / 2)]);
-
-    vis.path = d3.geoPath().projection(vis.projection);
+    vis.path = d3.geoPath()
+        .projection(vis.projection);
 
 
     // Initialize hover tooltip on nodes
@@ -51,9 +43,15 @@ NeighborhoodMap.prototype.initVis = function() {
 
             let outputString = '<div>';
             outputString += `<div style="text-align: center;"><span><strong>${d.properties.SPA_NAME}</strong></span></div><br>`;
-            outputString += `<span>Population: </span> <span style="float: right;">${d3.format(",")(d.properties.population)}</span><br>`;
-            outputString += `<span>Eviction Filings (${currentYear}): </span> <span style="float: right;">${d.properties.eviction_filings[currentYear]}</span><br>`;
-            outputString += `<span>Per 1,000 Residents: </span> <span style="float: right;">${d3.format("0.1f")(1000*d.properties.eviction_filings[currentYear] / d.properties.population)}</span><br>`;
+
+            if (vis.mapType === "property_values") {
+                outputString += `<span>Change in Housing Value (${currentYear-1}-${currentYear}): </span> <span style="float: right;">${d3.format("0.1%")(d.properties.housing_value_changes[currentYear])}</span><br>`;
+            }
+            else {
+                outputString += `<span>Population: </span> <span style="float: right;">${d3.format(",")(d.properties.population)}</span><br>`;
+                outputString += `<span>Eviction Filings (${currentYear}): </span> <span style="float: right;">${d.properties.eviction_filings[currentYear]}</span><br>`;
+                outputString += `<span>Per 1,000 Residents: </span> <span style="float: right;">${d3.format("0.1f")(1000*d.properties.eviction_filings[currentYear] / d.properties.population)}</span><br>`;
+            }
 
 
             outputString += '</div>';
@@ -62,7 +60,7 @@ NeighborhoodMap.prototype.initVis = function() {
         });
     vis.svg.call(vis.tip);
 
-    vis.mapPath = vis.g.append("g")
+    vis.mapPath = vis.svg.append("g")
         .attr("class", "neighborhood-path")
         .selectAll("path");
 
@@ -73,14 +71,29 @@ NeighborhoodMap.prototype.wrangleData = function() {
     const vis = this;
 
     vis.updateVis();
-
 };
 
 NeighborhoodMap.prototype.updateVis = function() {
     const vis = this;
 
-    vis.color
-        .domain(d3.extent(geoData.features, d => d.properties.eviction_filings[currentYear] / d.properties.population));
+    if (vis.mapType === "property_values") {
+        vis.mapProperty = 'housing_value_changes';
+
+        vis.color
+            // .domain([d3.min(geoData.features, d => d.properties[vis.mapProperty][currentYear]), 0, d3.max(geoData.features, d => d.properties[vis.mapProperty][currentYear])])
+            // .range(["#762a83", "#f7f7f7", "#1b7837"]);
+            .domain(d3.extent(geoData.features, d => d.properties[vis.mapProperty][currentYear]))
+            .range(["#f7f7f7", "#1b7837"]);
+    }
+    else {
+        vis.mapProperty = 'eviction_filings';
+
+        vis.color
+            .domain([d3.min(geoData.features, d => d.properties[vis.mapProperty][currentYear] / d.properties.population), 
+                0.6*d3.max(geoData.features, d => d.properties[vis.mapProperty][currentYear] / d.properties.population)]);
+    }
+
+    console.log(vis.mapType)
 
     vis.mapPath = vis.mapPath
         .data( geoData.features, (d) => d.properties.SPA_NAME)
@@ -91,11 +104,19 @@ NeighborhoodMap.prototype.updateVis = function() {
                 .style("opacity", 0.8)
                 .style("stroke","black")
                 .style('stroke-width', 0.5)
-                .style("fill", d => (typeof d.properties.eviction_filings[currentYear] === "undefined" || typeof d.properties.population === "undefined") ? "#DCDCDC" : vis.color(d.properties.eviction_filings[currentYear] / d.properties.population))
+                .style("fill", d => {
+                    if (d.properties[vis.mapProperty][currentYear] === "" || typeof d.properties[vis.mapProperty][currentYear] === "undefined" || typeof d.properties.population === "undefined") {
+                        return "#DCDCDC";
+                    }
+                    else if (vis.mapType === "property_values") {
+                        return vis.color(d.properties[vis.mapProperty][currentYear]);
+                    }
+                    else {
+                        return vis.color(d.properties[vis.mapProperty][currentYear] / d.properties.population);
+                    }
+                })
                 .on('mouseover', d => {
                     vis.tip.show(d);
-
-                    console.log(d.properties.SPA_NAME.replace(/ /g, '-'));
 
                     d3.selectAll('.' + d.properties.SPA_NAME.replace(/ /g, '-').replace('.', '-').replace("'", "-"))
                         .style("opacity", 1)
@@ -114,7 +135,17 @@ NeighborhoodMap.prototype.updateVis = function() {
             update => update
                 .transition()
                 .duration(200)
-                .style("fill", d => (typeof d.properties.eviction_filings[currentYear] === "undefined" || typeof d.properties.population === "undefined") ? "#DCDCDC" : vis.color(d.properties.eviction_filings[currentYear] / d.properties.population)),
+                .style("fill", d => {
+                    if (d.properties[vis.mapProperty][currentYear] === "" || typeof d.properties[vis.mapProperty][currentYear] === "undefined" || typeof d.properties.population === "undefined") {
+                        return "#DCDCDC";
+                    }
+                    else if (vis.mapType === "property_values") {
+                        return vis.color(d.properties[vis.mapProperty][currentYear]);
+                    }
+                    else {
+                        return vis.color(d.properties[vis.mapProperty][currentYear] / d.properties.population);
+                    }
+                }),
 
             exit => exit.remove()
             );

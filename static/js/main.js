@@ -65,7 +65,9 @@ function initSliders() {
         const range = document.getElementById('year-slider');
 
         currentYear = range.value;
+
         evictionMap.wrangleData();
+        housingValueMap.wrangleData();
 
         updateSliderLabel("year-slider", currentYear);
     });
@@ -97,6 +99,7 @@ function main() {
 
         evictionMap = new NeighborhoodMap("#eviction-map-area", "evictions");
         housingValueMap = new NeighborhoodMap("#housing-value-map-area", "property_values");
+        
         initSliders();
     });
 }

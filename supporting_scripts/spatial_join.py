@@ -39,6 +39,10 @@ with open(geojson_file, 'r') as f:
 with open('../data/cleveland_neighborhood_populations.csv', 'r') as f:
 	population_data = [x for x in csv.DictReader(f)]
 
+with open('../data/cleveland_neighborhood_home_values.csv', 'r') as f:
+	housing_value_data = [x for x in csv.DictReader(f)]
+
+
 for row in population_data:
 	row['Neighborhood'] = row['\ufeffNeighborhood']
 
@@ -46,6 +50,7 @@ for row in population_data:
 for x, row in enumerate(geojson_data['features']):
 	year_range = range(2014,2021)
 	eviction_totals = {}
+	housing_value_changes = {}
 	neighborhood = row['properties']['SPA_NAME']
 
 	for pop_row in population_data:
@@ -60,8 +65,21 @@ for x, row in enumerate(geojson_data['features']):
 			if row['Neighborhood'] == neighborhood and row['Year'] == year:
 				eviction_totals[year] = row['Eviction Filing Count']
 
+
+		for j, row in enumerate(housing_value_data):
+			if row['RegionName'] == neighborhood:
+				try:
+					housing_value_change = (float(row[f'6/30/{(year) - 2000}']) - float(row[f'6/30/{(year-1) - 2000}'])) / float(row[f'6/30/{(year-1) - 2000}'])
+				except ValueError:
+					housing_value_change = ''
+
+				housing_value_changes[year] = housing_value_change
+
+
+
 	geojson_data['features'][x]['properties']['eviction_filings'] = eviction_totals
-	print(neighborhood, eviction_totals)
+	geojson_data['features'][x]['properties']['housing_value_changes'] = housing_value_changes
+	print(neighborhood, eviction_totals, housing_value_changes)
 
 
 

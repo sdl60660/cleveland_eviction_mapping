@@ -45,7 +45,8 @@ NeighborhoodMap.prototype.initVis = function() {
             outputString += `<div style="text-align: center;"><span><strong>${d.properties.SPA_NAME}</strong></span></div><br>`;
 
             if (vis.mapType === "property_values") {
-                outputString += `<span>Change in Housing Value (${currentYear-1}-${currentYear}): </span> <span style="float: right;">${d3.format("0.1%")(d.properties.housing_value_changes[currentYear])}</span><br>`;
+                let housingValueChange = (typeof d.properties.housing_value_changes[currentYear] === "undefined" || d.properties.housing_value_changes[currentYear] === "") ? "N/A" : d3.format("0.1%")(d.properties.housing_value_changes[currentYear]);
+                outputString += `<span>Change in Housing Value (${currentYear-1}-${currentYear}): </span> <span style="float: right;">${housingValueChange}</span><br>`;
             }
             else {
                 outputString += `<span>Population: </span> <span style="float: right;">${d3.format(",")(d.properties.population)}</span><br>`;
@@ -115,8 +116,12 @@ NeighborhoodMap.prototype.updateVis = function() {
                         return vis.color(d.properties[vis.mapProperty][currentYear] / d.properties.population);
                     }
                 })
-                .on('mouseover', d => {
-                    vis.tip.show(d);
+                .on('mouseover', (d,i,n) => {
+                    let evictionNode = evictionMap.svg.select('.' + d.properties.SPA_NAME.replace(/ /g, '-').replace('.', '-').replace("'", "-")).node();
+                    evictionMap.tip.show(d, evictionNode);
+
+                    let housingValueNode = housingValueMap.svg.select('.' + d.properties.SPA_NAME.replace(/ /g, '-').replace('.', '-').replace("'", "-")).node();
+                    housingValueMap.tip.show(d,housingValueNode);
 
                     d3.selectAll('.' + d.properties.SPA_NAME.replace(/ /g, '-').replace('.', '-').replace("'", "-"))
                         .style("opacity", 1)
@@ -124,7 +129,8 @@ NeighborhoodMap.prototype.updateVis = function() {
                         .style("stroke-width", 3.0);
                 })
                 .on('mouseout', d => {
-                    vis.tip.hide(d);
+                    evictionMap.tip.hide();
+                    housingValueMap.tip.hide();
 
                     d3.selectAll('.' + d.properties.SPA_NAME.replace(/ /g, '-').replace('.', '-').replace("'", "-"))
                         .style("opacity", 0.8)

@@ -49,9 +49,10 @@ NeighborhoodMap.prototype.initVis = function() {
                 outputString += `<span>Change in Housing Value (${currentYear-1}-${currentYear}): </span> <span style="float: right;">${housingValueChange}</span><br>`;
             }
             else {
-                outputString += `<span>Population: </span> <span style="float: right;">${d3.format(",")(d.properties.population)}</span><br>`;
+                outputString += `<span>Population: </span> <span style="float: right;">${d3.format(",")(d.properties.pop)}</span><br>`;
+                outputString += `<span>Households: </span> <span style="float: right;">${d3.format(",")(d.properties.total_HH)}</span><br>`;
                 outputString += `<span>Eviction Filings (${currentYear}): </span> <span style="float: right;">${d.properties.eviction_filings[currentYear]}</span><br>`;
-                outputString += `<span>Per 1,000 Residents: </span> <span style="float: right;">${d3.format("0.1f")(1000*d.properties.eviction_filings[currentYear] / d.properties.population)}</span><br>`;
+                outputString += `<span>Per 1,000 Households: </span> <span style="float: right;">${d3.format("0.1f")(1000*d.properties.eviction_filings[currentYear] / d.properties.total_HH)}</span><br>`;
             }
 
 
@@ -90,8 +91,8 @@ NeighborhoodMap.prototype.updateVis = function() {
         vis.mapProperty = 'eviction_filings';
 
         vis.color
-            .domain([d3.min(geoData.features, d => d.properties[vis.mapProperty][currentYear] / d.properties.population), 
-                0.6*d3.max(geoData.features, d => d.properties[vis.mapProperty][currentYear] / d.properties.population)]);
+            .domain([d3.min(geoData.features, d => d.properties[vis.mapProperty][currentYear] / d.properties.total_HH), 
+                0.6*d3.max(geoData.features, d => d.properties[vis.mapProperty][currentYear] / d.properties.total_HH)]);
     }
 
     console.log(vis.mapType)
@@ -106,14 +107,14 @@ NeighborhoodMap.prototype.updateVis = function() {
                 .style("stroke","black")
                 .style('stroke-width', 0.5)
                 .style("fill", d => {
-                    if (d.properties[vis.mapProperty][currentYear] === "" || typeof d.properties[vis.mapProperty][currentYear] === "undefined" || typeof d.properties.population === "undefined") {
+                    if (d.properties[vis.mapProperty][currentYear] === "" || typeof d.properties[vis.mapProperty][currentYear] === "undefined" || typeof d.properties.total_HH === "undefined") {
                         return "#DCDCDC";
                     }
                     else if (vis.mapType === "property_values") {
                         return vis.color(d.properties[vis.mapProperty][currentYear]);
                     }
                     else {
-                        return vis.color(d.properties[vis.mapProperty][currentYear] / d.properties.population);
+                        return vis.color(d.properties[vis.mapProperty][currentYear] / d.properties.total_HH);
                     }
                 })
                 .on('mouseover', (d,i,n) => {
@@ -142,14 +143,14 @@ NeighborhoodMap.prototype.updateVis = function() {
                 .transition()
                 .duration(200)
                 .style("fill", d => {
-                    if (d.properties[vis.mapProperty][currentYear] === "" || typeof d.properties[vis.mapProperty][currentYear] === "undefined" || typeof d.properties.population === "undefined") {
+                    if (d.properties[vis.mapProperty][currentYear] === "" || typeof d.properties[vis.mapProperty][currentYear] === "undefined" || typeof d.properties.total_HH === "undefined") {
                         return "#DCDCDC";
                     }
                     else if (vis.mapType === "property_values") {
                         return vis.color(d.properties[vis.mapProperty][currentYear]);
                     }
                     else {
-                        return vis.color(d.properties[vis.mapProperty][currentYear] / d.properties.population);
+                        return vis.color(d.properties[vis.mapProperty][currentYear] / d.properties.total_HH);
                     }
                 }),
 

@@ -36,15 +36,15 @@ df.to_csv('../data/neighborhood_eviction_data.csv')
 with open(geojson_file, 'r') as f:
 	geojson_data = json.load(f)
 
-with open('../data/cleveland_neighborhood_populations.csv', 'r') as f:
-	population_data = [x for x in csv.DictReader(f)]
+# with open('../data/cleveland_neighborhood_populations.csv', 'r') as f:
+# 	population_data = [x for x in csv.DictReader(f)]
 
 with open('../data/cleveland_neighborhood_home_values.csv', 'r') as f:
 	housing_value_data = [x for x in csv.DictReader(f)]
 
 
-for row in population_data:
-	row['Neighborhood'] = row['\ufeffNeighborhood']
+# for row in population_data:
+# 	row['Neighborhood'] = row['\ufeffNeighborhood']
 
 
 for x, row in enumerate(geojson_data['features']):
@@ -53,12 +53,9 @@ for x, row in enumerate(geojson_data['features']):
 	housing_value_changes = {}
 	neighborhood = row['properties']['SPA_NAME']
 
-	for pop_row in population_data:
-		if pop_row['Neighborhood'] == neighborhood:
-			geojson_data['features'][x]['properties']['population'] = int(pop_row['Population'])
-
-	if 'population' not in geojson_data['features'][x]['properties'].keys():
-		print(neighborhood)
+	# for pop_row in population_data:
+	# 	if pop_row['Neighborhood'] == neighborhood:
+	# 		geojson_data['features'][x]['properties']['population'] = int(pop_row['Population'])
 
 	for year in year_range:
 		for i, row in df.iterrows():
@@ -83,11 +80,7 @@ for x, row in enumerate(geojson_data['features']):
 
 
 
-with open("../data/final_cleveland_neighborhoods.geojson", 'w') as f:
-	json.dump(geojson_data, f)
-
-
-with open("../static/data/cleveland_neighborhoods.geojson", 'w') as f:
+with open("../data/cleveland_neighborhoods_with_evictions.geojson", 'w') as f:
 	json.dump(geojson_data, f)
 
 

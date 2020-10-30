@@ -45,12 +45,12 @@ NeighborhoodMap.prototype.initVis = function() {
             outputString += `<div style="text-align: center;"><span><strong>${d.properties.SPA_NAME}</strong></span></div><br>`;
 
             if (vis.mapType === "property_values") {
-                let housingValueChange = (typeof d.properties.housing_value_changes[currentYear] === "undefined" || d.properties.housing_value_changes[currentYear] === "") ? "N/A" : d3.format("0.1%")(d.properties.housing_value_changes[currentYear]);
-                outputString += `<span>Change in Housing Value (${currentYear-1}-${currentYear}): </span> <span style="float: right;">${housingValueChange}</span><br>`;
+                let housingValueChange = (typeof d.properties.housing_value_changes[currentYear] === "undefined" || d.properties.housing_value_changes[currentYear] === "") ? "N/A" : d3.format("+0.1%")(d.properties.housing_value_changes[currentYear]);
+                outputString += `<span>Change in Home Value (${currentYear-1}-${currentYear-2000}): </span> <span style="float: right;">${housingValueChange}</span><br>`;
             }
             else {
                 outputString += `<span>Population: </span> <span style="float: right;">${d3.format(",")(d.properties.pop)}</span><br>`;
-                outputString += `<span>Households: </span> <span style="float: right;">${d3.format(",")(d.properties.pop)}</span><br>`;
+                outputString += `<span>Households: </span> <span style="float: right;">${d3.format(",")(d.properties.total_HH)}</span><br>`;
                 outputString += `<span>Eviction Filings (${currentYear}): </span> <span style="float: right;">${d.properties.eviction_filings[currentYear]}</span><br>`;
                 outputString += `<span>Per 1,000 Households: </span> <span style="float: right;">${d3.format("0.1f")(1000*d.properties.eviction_filings[currentYear] / d.properties.total_HH)}</span><br>`;
             }

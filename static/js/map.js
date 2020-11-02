@@ -44,16 +44,29 @@ NeighborhoodMap.prototype.initVis = function() {
             let outputString = '<div>';
             outputString += `<div style="text-align: center;"><span><strong>${d.properties.SPA_NAME}</strong></span></div><br>`;
 
-            if (vis.mapType === "compare") {
+            let selectVal = $('#feature-select :selected').val();
+            let selectText = $('#feature-select :selected').text();
+
+            if (vis.mapType === "evictions") {
+                let evictionCount = typeof d.properties.eviction_filings[currentYear] === "undefined" ? 0 : d.properties.eviction_filings[currentYear]
+
+                // outputString += `<span>Population: </span> <span style="float: right;">${d3.format(",")(d.properties.pop)}</span><br>`;
+                outputString += `<span>Total Households: </span> <span style="float: right;">${d3.format(",")(d.properties.total_HH)}</span><br>`;
+                outputString += `<span>Eviction Filings (${currentYear}): </span> <span style="float: right;">${evictionCount}</span><br>`;
+                outputString += `<span>Per 1,000 Households: </span> <span style="float: right;">${d3.format("0.1f")(1000*evictionCount / d.properties.total_HH)}</span><br>`;
+            }
+            else if (selectVal === "housing_value_changes") {
                 let housingValueChange = (typeof d.properties.housing_value_changes[currentYear] === "undefined" || d.properties.housing_value_changes[currentYear] === "") ? "N/A" : d3.format("+0.1%")(d.properties.housing_value_changes[currentYear]);
                 outputString += `<span>Change in Home Value (${currentYear-1}-${currentYear-2000}): </span> <span style="float: right;">${housingValueChange}</span><br>`;
             }
             else {
-                outputString += `<span>Population: </span> <span style="float: right;">${d3.format(",")(d.properties.pop)}</span><br>`;
-                outputString += `<span>Households: </span> <span style="float: right;">${d3.format(",")(d.properties.total_HH)}</span><br>`;
-                outputString += `<span>Eviction Filings (${currentYear}): </span> <span style="float: right;">${d.properties.eviction_filings[currentYear]}</span><br>`;
-                outputString += `<span>Per 1,000 Households: </span> <span style="float: right;">${d3.format("0.1f")(1000*d.properties.eviction_filings[currentYear] / d.properties.total_HH)}</span><br>`;
+                let displayVal = (typeof d.properties[selectVal] === "undefined" || d.properties[selectVal] === "") ? "N/A" : d.properties[selectVal];
+
+                displayVal = selectText.includes("%") ? d3.format("0.1%")(displayVal) : d3.format("$,.0f")(displayVal);
+
+                outputString += `<span>${selectText}: </span> <span style="float: right;">${displayVal}</span><br>`;
             }
+
 
 
             outputString += '</div>';

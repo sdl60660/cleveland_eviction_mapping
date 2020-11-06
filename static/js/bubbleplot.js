@@ -136,7 +136,7 @@ BubblePlot.prototype.wrangleData = function() {
     }
     else {
         vis.x
-            .domain(d3.extent(geoData.features, d => d.properties[vis.selectVal]));
+            .domain([0.9*d3.min(geoData.features, d => d.properties[vis.selectVal]), 1.1*d3.max(geoData.features, d => d.properties[vis.selectVal])]);
     }
 
     vis.y = d3.scaleLinear()

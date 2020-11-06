@@ -8,6 +8,7 @@ const phoneBrowsingCutoff = 1100;
 // Datasets
 let geoData = null;
 let zillowData = null;
+let allEvictions = null;
 
 // Init Data
 let currentYear = 2019;
@@ -83,7 +84,8 @@ function main() {
     // Begin loading datafiles
     const promises = [
         d3.json("static/data/cleveland_neighborhoods.geojson"),
-        d3.csv("static/data/cleveland_neighborhood_home_values.csv")
+        d3.csv("static/data/cleveland_neighborhood_home_values.csv"),
+        d3.csv("static/data/geocoded_eviction_data.csv")
     ];
 
     determinePhoneBrowsing();
@@ -92,17 +94,20 @@ function main() {
 
         geoData = allData[0];
         zillowData = allData[1];
+        allEvictions = allData[2];
 
         $(".loadring-container")
             .hide();
 
-        $("#intro-wrapper, #map-wrapper, .footer")
+        $("#intro-wrapper, #map-wrapper, #bubbleplot-wrapper, #neighborhood-map-wrapper, .footer")
             .css("visibility", "visible");
 
-        evictionMap = new NeighborhoodMap("#eviction-map-area", "evictions");
-        compareMap = new NeighborhoodMap("#compare-map-area", "compare");
+        evictionMap = new CityMap("#eviction-map-area", "evictions");
+        compareMap = new CityMap("#compare-map-area", "compare");
 
         bubblePlot = new BubblePlot("#bubbleplot-area");
+
+        neighborhoodMap = new NeighborhoodMap("neighborhood-map-area");
 
         initSliders();
 

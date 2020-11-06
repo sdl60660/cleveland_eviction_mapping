@@ -1,6 +1,6 @@
 // d3 = require("d3@5");
 
-NeighborhoodMap = function(_parentElement, _mapType) {
+CityMap = function(_parentElement, _mapType) {
     this.parentElement = _parentElement;
     this.mapType = _mapType;
 
@@ -8,7 +8,7 @@ NeighborhoodMap = function(_parentElement, _mapType) {
 };
 
 
-NeighborhoodMap.prototype.initVis = function() {
+CityMap.prototype.initVis = function() {
     const vis = this;
 
     // Set height/width of viewBox
@@ -82,13 +82,13 @@ NeighborhoodMap.prototype.initVis = function() {
     vis.wrangleData();
 };
 
-NeighborhoodMap.prototype.wrangleData = function() {
+CityMap.prototype.wrangleData = function() {
     const vis = this;
 
     vis.updateVis();
 };
 
-NeighborhoodMap.prototype.updateVis = function() {
+CityMap.prototype.updateVis = function() {
     const vis = this;
 
     if (vis.mapType === "compare") {

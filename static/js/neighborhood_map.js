@@ -86,7 +86,7 @@ NeighborhoodMap.prototype.plotNeighborhoodEvictions = function(neighborhoodName,
 
 		let popupContent = `<div style="text-align:center;margin-bottom:-50px;font-size: 14px;"><strong>${eviction_filing["Property Address"]}</strong></div>`;
 
-		popupContent += '<table>';
+		popupContent += '<table class="leaflet-tooltip-table">';
 
 		popupContent += `<tr><td><span>File Date:</span></td> <td><span>${eviction_filing['File Date']}</span></td></tr><br>`;
 		popupContent += `<tr><td><span>Plaintiff:</span></td> <td><span>${eviction_filing['Plaintiff']}</span></td></tr><br>`;
@@ -99,7 +99,7 @@ NeighborhoodMap.prototype.plotNeighborhoodEvictions = function(neighborhoodName,
 		let popup = L.popup()
 			.setContent(popupContent);
 
-		let marker = new L.circle([eviction_filing['lat'], eviction_filing['lng']], 12, {
+		let marker = new L.circle([eviction_filing['lat'], eviction_filing['lng']], 20, {
 			fillOpacity: 0.6,
 			stroke: 0.2
 			// color: "black"

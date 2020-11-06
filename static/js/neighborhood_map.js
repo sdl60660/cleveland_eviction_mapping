@@ -99,7 +99,7 @@ NeighborhoodMap.prototype.plotNeighborhoodEvictions = function(neighborhoodName,
 		let popup = L.popup()
 			.setContent(popupContent);
 
-		let marker = new L.circle([eviction_filing['lat'], eviction_filing['lng']], 20, {
+		let marker = new L.circle([eviction_filing['lat'], eviction_filing['lng']], 22, {
 			fillOpacity: 0.6,
 			stroke: 0.2
 			// color: "black"

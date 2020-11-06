@@ -66,7 +66,7 @@ for x, row in enumerate(geojson_data['features']):
 		for j, row in enumerate(housing_value_data):
 			if row['RegionName'] == neighborhood:
 				try:
-					housing_value_change = (float(row[f'6/30/{(year) - 2000}']) - float(row[f'6/30/{(year-1) - 2000}'])) / float(row[f'6/30/{(year-1) - 2000}'])
+					housing_value_change = (float(row[f'9/30/{(year) - 2000}']) - float(row[f'9/30/{(year-1) - 2000}'])) / float(row[f'9/30/{(year-1) - 2000}'])
 				except ValueError:
 					housing_value_change = ''
 

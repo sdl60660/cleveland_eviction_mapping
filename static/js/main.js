@@ -69,6 +69,8 @@ function initSliders() {
         evictionMap.wrangleData();
         compareMap.wrangleData();
 
+        bubblePlot.wrangleData();
+
         updateSliderLabel("year-slider", currentYear);
     });
 
@@ -100,11 +102,15 @@ function main() {
         evictionMap = new NeighborhoodMap("#eviction-map-area", "evictions");
         compareMap = new NeighborhoodMap("#compare-map-area", "compare");
 
+        bubblePlot = new BubblePlot("#bubbleplot-area");
+
         initSliders();
 
         $("#feature-select")
             .on("change", () => {
                 compareMap.wrangleData();
+
+                bubblePlot.wrangleData();
             })
     });
 }

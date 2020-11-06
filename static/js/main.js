@@ -70,7 +70,10 @@ function initSliders() {
         evictionMap.wrangleData();
         compareMap.wrangleData();
 
-        bubblePlot.wrangleData();
+        // bubblePlot.wrangleData();
+        if (typeof neighborhoodMap.featuredNeighborhood !== "undefined") {
+            neighborhoodMap.plotNeighborhoodEvictions(neighborhoodMap.featuredNeighborhood, currentYear);
+        }
 
         updateSliderLabel("year-slider", currentYear);
     });
@@ -105,7 +108,7 @@ function main() {
         evictionMap = new CityMap("#eviction-map-area", "evictions");
         compareMap = new CityMap("#compare-map-area", "compare");
 
-        bubblePlot = new BubblePlot("#bubbleplot-area");
+        // bubblePlot = new BubblePlot("#bubbleplot-area");
 
         neighborhoodMap = new NeighborhoodMap("neighborhood-map-area");
 
@@ -115,7 +118,7 @@ function main() {
             .on("change", () => {
                 compareMap.wrangleData();
 
-                bubblePlot.wrangleData();
+                // bubblePlot.wrangleData();
             })
     });
 }

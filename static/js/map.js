@@ -139,6 +139,9 @@ CityMap.prototype.updateVis = function() {
                         return vis.color(propertyVal);
                     }
                 })
+                .on('click', (d) => {
+                    neighborhoodMap.zoomToNeighborhood(d.properties.SPA_NAME);
+                })
                 .on('mouseover', (d,i,n) => {
                     let evictionNode = evictionMap.svg.select('.' + d.properties.SPA_NAME.replace(/ /g, '-').replace('.', '-').replace("'", "-")).node();
                     evictionMap.tip.show(d, evictionNode);

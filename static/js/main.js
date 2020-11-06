@@ -85,7 +85,7 @@ function main() {
     const promises = [
         d3.json("static/data/cleveland_neighborhoods.geojson"),
         d3.csv("static/data/cleveland_neighborhood_home_values.csv"),
-        d3.csv("static/data/geocoded_eviction_data.csv")
+        d3.csv("static/data/geocoded_eviction_data_with_neighborhoods.csv")
     ];
 
     determinePhoneBrowsing();

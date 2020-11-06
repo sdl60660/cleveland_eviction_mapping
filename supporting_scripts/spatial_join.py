@@ -24,6 +24,9 @@ print(neighborhoods.head())
 sjoin_evictions = gpd.sjoin(gdf_evictions.set_crs("EPSG:4326"), neighborhoods, op="within")
 print(sjoin_evictions.head())
 
+# Save a copy of evictions with attached neighborhoods
+sjoin_evictions.to_csv('../data/geocoded_eviction_data_with_neighborhoods.csv')
+
 
 # Group spatial-joined dataframe by neighborhood (SPA_NAME) and year
 grouped = sjoin_evictions.groupby(["SPA_NAME", "file_year"]).size()

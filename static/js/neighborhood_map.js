@@ -22,6 +22,7 @@ NeighborhoodMap.prototype.initVis = function() {
 	vis.map.setMaxBounds(vis.map.getBounds());
 
 	vis.featuredNeighborhood = null;
+	vis.markers = [];
 
     vis.wrangleData();
 };
@@ -45,7 +46,7 @@ NeighborhoodMap.prototype.wrangleData = function() {
 	// map double-click event so that it doesn't fire
 	vis.polygons.on('click', (event) => {
 		vis.map.doubleClickZoom.disable();
-		setTimeout(() => {vis.map.doubleClickZoom.enable()}, 300);
+		setTimeout(() => {vis.map.doubleClickZoom.enable()}, 500);
 	})
 
 	// On polygon double-click, zoom to/highlight polygon (as well as display eviction filings as markers)
@@ -54,7 +55,6 @@ NeighborhoodMap.prototype.wrangleData = function() {
 	    vis.map.doubleClickZoom.enable();
 	});
 
-    vis.updateVis();
 };
 
 
@@ -70,10 +70,46 @@ NeighborhoodMap.prototype.zoomToNeighborhood = function(neighborhoodName) {
 	vis.map.fitBounds(zoomNeighborhood.getBounds());
 	zoomNeighborhood.setStyle({'color': 'black', 'weight': 3, 'fillColor': 'yellow', 'fillOpacity': 0.08});
 
-}
+	vis.plotNeighborhoodEvictions(neighborhoodName, currentYear);
+};
 
-NeighborhoodMap.prototype.updateVis = function() {
-    const vis = this;
 
+NeighborhoodMap.prototype.plotNeighborhoodEvictions = function(neighborhoodName, year) {
+	const vis = this;
+
+	vis.markers.forEach(marker => {
+		vis.map.removeLayer(marker);
+	})
+
+	vis.featuredEvictionData = allEvictions.slice().filter(d => +d.file_year === +year && d.SPA_NAME === neighborhoodName)
+	vis.featuredEvictionData.forEach(eviction_filing => {
+
+		let popupContent = `<div style="text-align:center;margin-bottom:-50px;font-size: 14px;"><strong>${eviction_filing["Property Address"]}</strong></div>`;
+
+		popupContent += '<table>';
+
+		popupContent += `<tr><td><span>File Date:</span></td> <td><span>${eviction_filing['File Date']}</span></td></tr><br>`;
+		popupContent += `<tr><td><span>Plaintiff:</span></td> <td><span>${eviction_filing['Plaintiff']}</span></td></tr><br>`;
+		popupContent += `<tr><td><span>Case Number:</span></td> <td><span>${eviction_filing['Case Number']}</span></td></tr><br>`;
+		popupContent += `<tr><td><span>Case Status:</span></td> <td><span>${eviction_filing['Case Status']} - ${eviction_filing['Disposition Status']}</span></td></tr><br>`;
+
+
+		popupContent += '</table>';
+
+		let popup = L.popup()
+			.setContent(popupContent);
+
+		let marker = new L.circle([eviction_filing['lat'], eviction_filing['lng']], 12, {
+			fillOpacity: 0.6,
+			stroke: 0.2
+			// color: "black"
+		})
+			.bindPopup(popup)
+			.addTo(vis.map);
+
+		vis.markers.push(marker);
+	})
 
 };
+
+

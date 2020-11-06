@@ -129,7 +129,14 @@ strong {
 }
 
 #neighborhood-map-area {
-    height: 600px;
+    height: 480px;
+}
+
+
+#feature-select {
+    min-width: 280px;
+    padding-left: 5px;
+    padding: auto;
 }
 
 
@@ -174,7 +181,7 @@ strong {
     }
 
     .viz-tile {
-        padding-top: 150px;
+        /*padding-top: 150px;*/
     }
 
     .container {
@@ -191,7 +198,7 @@ strong {
      }
 
      .footer {
-         font-size: 16pt;
+         font-size: 12pt;
      }
 
      .tip-text {
@@ -209,6 +216,10 @@ strong {
      .axis-tip {
          font-size: 14px;
      }
+
+     #neighborhood-map-area {
+        height: 300px;
+    }
 }
 
 .container {

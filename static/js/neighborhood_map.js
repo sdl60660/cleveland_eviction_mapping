@@ -9,9 +9,11 @@ NeighborhoodMap = function(_parentElement) {
 NeighborhoodMap.prototype.initVis = function() {
     const vis = this;
 
+    const minZoomLevel = phoneBrowsing === true ? 10 : 11;
+
     // Init map and disallow zooming out past initial zoom level
-    vis.map = L.map(vis.parentElement, {'minZoom': 11})
-    	.setView([41.4993, -81.6944], 11);
+    vis.map = L.map(vis.parentElement, {'minZoom': minZoomLevel})
+    	.setView([41.4993, -81.6944], minZoomLevel);
 
     // Add tile layer
     L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png', {

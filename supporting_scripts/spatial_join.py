@@ -36,6 +36,14 @@ df.columns = ["Neighborhood", "Year", "Eviction Filing Count"]
 df.to_csv('../data/neighborhood_eviction_data.csv')
 
 
+# Filter out CMHA evictions and create filtered dataframe to attach to GeoJSON data
+grouped_filtered = sjoin_evictions.loc[sjoin_evictions['Plaintiff'] != 'CMHA'].groupby(['SPA_NAME', 'file_year']).size()
+filtered_df = grouped_filtered.to_frame().reset_index()
+filtered_df.columns = ["Neighborhood", "Year", "Eviction Filing Count"]
+
+print(filtered_df.head())
+
+
 with open(geojson_file, 'r') as f:
 	geojson_data = json.load(f)
 
@@ -53,6 +61,7 @@ with open('../data/cleveland_neighborhood_home_values.csv', 'r') as f:
 for x, row in enumerate(geojson_data['features']):
 	year_range = range(2014,2021)
 	eviction_totals = {}
+	filtered_eviction_totals = {}
 	housing_value_changes = {}
 	neighborhood = row['properties']['SPA_NAME']
 
@@ -64,6 +73,10 @@ for x, row in enumerate(geojson_data['features']):
 		for i, row in df.iterrows():
 			if row['Neighborhood'] == neighborhood and row['Year'] == year:
 				eviction_totals[year] = row['Eviction Filing Count']
+
+		for i, row in filtered_df.iterrows():
+			if row['Neighborhood'] == neighborhood and row['Year'] == year:
+				filtered_eviction_totals[year] = row['Eviction Filing Count']
 
 
 		for j, row in enumerate(housing_value_data):
@@ -78,6 +91,7 @@ for x, row in enumerate(geojson_data['features']):
 
 
 	geojson_data['features'][x]['properties']['eviction_filings'] = eviction_totals
+	geojson_data['features'][x]['properties']['filtered_eviction_filings'] = filtered_eviction_totals
 	geojson_data['features'][x]['properties']['housing_value_changes'] = housing_value_changes
 	print(neighborhood, eviction_totals, housing_value_changes)
 

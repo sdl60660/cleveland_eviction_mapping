@@ -9,10 +9,14 @@ library(sf)
 ### KEY
 census_api_key("a3b3e47d0fc8a2c96b3ad41144235642a02954c7", install = TRUE, overwrite=TRUE)
 
-
+cle_block_groups <- block_groups(state=39, county=035, class="sf")
 
 cle_centroids <- cle_block_groups %>%
   st_centroid()
+
+
+#pull all variables
+acs_18_vars <- load_variables(2018, "acs5", cache=T)
 
 #PULL DEMOGRAPHICS
 block_group_demos <- get_acs(geography="block group",

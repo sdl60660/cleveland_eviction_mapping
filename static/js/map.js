@@ -1,4 +1,6 @@
 // d3 = require("d3@5");
+// d3 = require("d3@6");
+// import d3_colorLegend from "https://api.observablehq.com/@d3/color-legend.js?v=3";
 
 CityMap = function(_parentElement, _mapType) {
     this.parentElement = _parentElement;
@@ -12,7 +14,7 @@ CityMap.prototype.initVis = function() {
     const vis = this;
 
     // Set height/width of viewBox
-    vis.width = 1200;
+    vis.width = 1000;
     vis.height = 800;
 
     if (phoneBrowsing === true) {
@@ -34,6 +36,7 @@ CityMap.prototype.initVis = function() {
     vis.path = d3.geoPath()
         .projection(vis.projection);
 
+    vis.eviction_field = includeCMHA === true ? "eviction_filings" : "filtered_eviction_filings";
 
     // Initialize hover tooltip on nodes
     vis.tip = d3.tip()
@@ -48,7 +51,7 @@ CityMap.prototype.initVis = function() {
             let selectText = $('#feature-select :selected').text();
 
             if (vis.mapType === "evictions") {
-                let evictionCount = typeof d.properties.eviction_filings[currentYear] === "undefined" ? 0 : d.properties.eviction_filings[currentYear]
+                let evictionCount = typeof d.properties[vis.eviction_field][currentYear] === "undefined" ? 0 : d.properties[vis.eviction_field][currentYear]
 
                 // outputString += `<span>Population: </span> <span style="float: right;">${d3.format(",")(d.properties.pop)}</span><br>`;
                 outputString += `<span>Total Households: </span> <span style="float: right;">${d3.format(",")(d.properties.total_HH)}</span><br>`;
@@ -85,6 +88,8 @@ CityMap.prototype.initVis = function() {
 CityMap.prototype.wrangleData = function() {
     const vis = this;
 
+    vis.eviction_field = includeCMHA === true ? "eviction_filings" : "filtered_eviction_filings";
+
     vis.updateVis();
 };
 
@@ -108,11 +113,11 @@ CityMap.prototype.updateVis = function() {
         }
     }
     else {
-        vis.mapProperty = 'eviction_filings';
+        vis.mapProperty = vis.eviction_field;
 
         vis.color
-            .domain([d3.min(geoData.features, d => d.properties[vis.mapProperty][currentYear] / d.properties.total_HH), 
-                0.6*d3.max(geoData.features, d => d.properties[vis.mapProperty][currentYear] / d.properties.total_HH)]);
+            .domain([1000*d3.min(geoData.features, d => d.properties[vis.mapProperty][currentYear] / d.properties.total_HH), 
+                0.6*1000*d3.max(geoData.features, d => d.properties[vis.mapProperty][currentYear] / d.properties.total_HH)]);
     }
 
     console.log(vis.mapType)
@@ -127,13 +132,13 @@ CityMap.prototype.updateVis = function() {
                 .style("stroke","black")
                 .style('stroke-width', 0.5)
                 .style("fill", d => {
-                    let propertyVal = (vis.mapProperty === "housing_value_changes" || vis.mapProperty === "eviction_filings") ? d.properties[vis.mapProperty][currentYear] : d.properties[vis.mapProperty];
+                    let propertyVal = (vis.mapProperty === "housing_value_changes" || vis.mapProperty === vis.eviction_field) ? d.properties[vis.mapProperty][currentYear] : d.properties[vis.mapProperty];
 
                     if (propertyVal === "" || typeof propertyVal === "undefined") {
                         return "#DCDCDC";
                     }
-                    else if (vis.mapProperty === "eviction_filings") {
-                        return vis.color(propertyVal / d.properties.total_HH);
+                    else if (vis.mapProperty === vis.eviction_field) {
+                        return vis.color(1000*propertyVal / d.properties.total_HH);
                     }
                     else {
                         return vis.color(propertyVal);
@@ -168,13 +173,13 @@ CityMap.prototype.updateVis = function() {
                 .transition()
                 .duration(300)
                 .style("fill", d => {
-                    let propertyVal = (vis.mapProperty === "housing_value_changes" || vis.mapProperty === "eviction_filings") ? d.properties[vis.mapProperty][currentYear] : d.properties[vis.mapProperty];
+                    let propertyVal = (vis.mapProperty === "housing_value_changes" || vis.mapProperty === vis.eviction_field) ? d.properties[vis.mapProperty][currentYear] : d.properties[vis.mapProperty];
 
                     if (propertyVal === "" || typeof propertyVal === "undefined") {
                         return "#DCDCDC";
                     }
-                    else if (vis.mapProperty === "eviction_filings") {
-                        return vis.color(propertyVal / d.properties.total_HH);
+                    else if (vis.mapProperty === vis.eviction_field) {
+                        return vis.color(1000*propertyVal / d.properties.total_HH);
                     }
                     else {
                         return vis.color(propertyVal);
@@ -182,6 +187,121 @@ CityMap.prototype.updateVis = function() {
                 }),
 
             exit => exit.remove()
+
             );
 
+    vis.createLegend();
+
 };
+
+
+CityMap.prototype.createLegend = function() {
+    const vis = this;
+
+    d3.select(`#legend-${vis.mapType}`)
+        .remove();
+
+    let margin = ({top: 20, right: 35, bottom: 30, left: 50});
+
+    let barHeight = 20;
+    let height = 100;
+    let width = 450;
+
+    let colorScale = vis.color;
+    if (vis.mapType === "compare") {
+        colorScale.domain(vis.color.domain());
+        vis.legendSVGid = "#compare-map-legend";
+    }
+    else {
+        colorScale.domain([vis.color.domain()[0], vis.color.domain()[1]/0.6]);
+        vis.legendSVGid = "#eviction-map-legend";
+    }
+
+    vis.legendSVG = d3.select(vis.legendSVGid)
+        .append("svg")
+        .attr("id", `legend-${vis.mapType}`)
+        .attr("width", width + margin.left + margin.right)
+    const defs = vis.legendSVG.append("defs");
+  
+    vis.linearGradient = defs.append("linearGradient")
+        .attr("id", `linear-gradient-${vis.mapType}`);
+
+    vis.linearGradient.selectAll("stop")
+        .data(colorScale.ticks().map((t, i, n) => ({ offset: `${100*i/n.length}%`, color: colorScale(t) })))
+        .enter()
+            .append("stop")
+            .attr("offset", d => d.offset)
+            .attr("stop-color", d => d.color);
+
+    let selectVal = $('#feature-select :selected').val();
+    let selectText = $('#feature-select :selected').text();
+
+    vis.legendSVG.append('g')
+        .attr("transform", `translate(0,${height - margin.bottom - barHeight})`)
+        .append("rect")
+        .attr('transform', `translate(${margin.left}, 0)`)
+        .attr("width", width - margin.right - margin.left)
+        .attr("height", barHeight)
+        .style("fill", `url(#linear-gradient-${vis.mapType})`);
+
+    vis.legendSVG.append("text")
+        .attr("class", "legend-min-val")
+        .attr("transform", `translate(0,${height - margin.bottom - barHeight})`)
+        .attr("x", margin.left - 3)
+        .attr("y", barHeight/2 + 6)
+        .style("text-anchor", "end")
+        .style("font-size", "12px")
+        .text(() => {
+            if (vis.mapType === "evictions") {
+                return d3.format("0.1f")(colorScale.domain()[0]);
+            }
+            else if (selectVal === "housing_value_changes") {
+                return d3.format("+0.1%")(colorScale.domain()[0]);
+            }
+            else if (selectText.includes("%")) {
+                return d3.format("0.1%")(colorScale.domain()[0]);
+            }
+            else {
+                return d3.format("$,")(colorScale.domain()[0]);
+            }
+        });
+
+    vis.legendSVG.append("text")
+        .attr("class", "legend-max-val")
+        .attr("transform", `translate(0,${height - margin.bottom - barHeight})`)
+        .attr("x", (width - margin.right) + 3)
+        .attr("y", barHeight/2 + 6)
+        .style("text-anchor", "start")
+        .style("font-size", "12px")
+        .text(() => {
+            if (vis.mapType === "evictions") {
+                return d3.format("0.1f")(colorScale.domain()[1]);
+            }
+            else if (selectVal === "housing_value_changes") {
+                return d3.format("+0.1%")(colorScale.domain()[2]);
+            }
+            else if (selectText.includes("%")) {
+                return d3.format("0.1%")(colorScale.domain()[1]);
+            }
+            else {
+                return d3.format("$,")(colorScale.domain()[1]);
+            }
+        });
+
+
+    vis.legendSVG.append("text")
+        .attr("class", "legend-label")
+        .attr("transform", `translate(${width/2},${height - barHeight + 3})`)
+        .attr("text-anchor", "middle")
+        .text(() => vis.mapType === "evictions" ? 
+            `Evictions per 1,000 Households (${currentYear})`
+            : selectVal === "housing_value_changes" ? `Change in Home Value (${currentYear-1}-${currentYear-2000})` : selectText);
+
+
+
+}
+
+
+
+
+

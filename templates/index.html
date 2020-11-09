@@ -93,16 +93,25 @@
     <div class="tile-wrapper" id="map-wrapper" style="margin-top: 8vh; visibility: hidden;">
     <div class="container viz-tile" id="map-tile">
         <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-4" style="padding:0;">
+            <!-- <div class="col-md-1"></div> -->
+            <div class="col-md-4 col-xs-12" style="padding:0;">
                 <div class="slider-div">
                     <span class="control-header" style="margin-bottom: 5px;">Year:</span>
                     <div class="range-value" id="year-slider-label"></div>
                     <input type="range" id="year-slider" name="year-select" min="2014" max="2020" step="1" value="2019">
                 </div>
             </div>
-            <div class="col-md-1"></div>
-            <div class="col-md-6" style="margin: auto">
+            <div class="col-md-2 col-xs-5 mobile-second-row">
+                <span class="control-header">CMHA Evictions:</span>
+                <div class="onoffswitch" style="margin: auto">
+                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="cmha-evictions" tabindex="0" checked>
+                    <label class="onoffswitch-label" for="cmha-evictions">
+                        <span class="onoffswitch-inner"></span>
+                        <span class="onoffswitch-switch"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-7 mobile-second-row" id="feature-select-div">
                 <span class="control-header" style="margin-bottom: 5px;">Compare With:</span><br>
                 <select id="feature-select">
                     <option value="housing_value_changes" selected>Change In Avg. Home Value (%, Zillow)</option>
@@ -122,9 +131,12 @@
             <!-- <div class="col-md-1"></div> -->
             <div class="col-md-6 viz-area">
                 <div class="row" id="eviction-map-area" style="max-height: 67vh"></div>
+                <div class="row" id="eviction-map-legend"></div>
             </div>
+            <!-- <div class="col-md-2"></div> -->
             <div class="col-md-6 viz-area">
                 <div class="row" id="compare-map-area" style="max-height: 67vh"></div>
+                <div class="row" id="compare-map-legend"></div>
             </div>
             <!-- <div class="col-md-1"></div> -->
         </div>

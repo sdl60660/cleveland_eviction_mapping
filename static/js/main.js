@@ -12,6 +12,7 @@ let allEvictions = null;
 
 // Init Data
 let currentYear = 2019;
+let includeCMHA = true;
 
 // ======== END GLOBALS ======== //
 
@@ -120,6 +121,12 @@ function main() {
 
                 // bubblePlot.wrangleData();
             })
+
+        $('#cmha-evictions')
+            .on('click', () => {
+                includeCMHA = $('#cmha-evictions').is(":checked");
+                evictionMap.wrangleData();
+            });
     });
 }
 

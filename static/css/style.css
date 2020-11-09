@@ -159,6 +159,15 @@ strong {
     margin-right: 3px;
 }
 
+#feature-select-div {
+    margin: auto;
+}
+
+.range-value{
+    position: absolute;
+    top: 110%;
+}
+
 
 @media (max-width: 1100px) {
     /*#sections {*/
@@ -169,11 +178,16 @@ strong {
     /*}*/
 
     .range-value span {
-        font-size: 20px;
+        font-size: 16px;
 
         min-width: 38px;
         padding-left: 3px;
         padding-right: 3px;
+    }
+
+    #feature-select {
+        min-width: unset;
+        max-width: 100%;
     }
 
     .slider-div {
@@ -220,6 +234,20 @@ strong {
      #neighborhood-map-area {
         height: 300px;
     }
+
+    #feature-select-div {
+        margin-top: 40px;
+    }
+
+
+    .mobile-second-row {
+        margin-top: 40px;
+    }
+
+    .range-value{
+        position: absolute;
+        top: 75%;
+    }
 }
 
 .container {
@@ -256,11 +284,6 @@ hr {
     border: solid 0.2px #bbb !important;
 }
 
-.range-value{
-    position: absolute;
-    top: 110%;
-}
-
 .noselect {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -268,6 +291,30 @@ hr {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+div.info {
+    background-color: white;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-size: 14px;
+    min-width: 150px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+.legend {
+    line-height: 18px;
+    color: #555;
+}
+
+.legend i {
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin-right: 8px;
+    border: 1px solid black;
+    border-radius: 15px;
+    opacity: 0.5;
 }
 
 
@@ -307,4 +354,55 @@ hr {
   100% {
     transform: rotate(360deg);
   }
+}
+
+/* Toggle Switch */
+
+.onoffswitch {
+    position: relative; width: 109px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.onoffswitch-checkbox {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 20px;
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 30px; padding: 0; line-height: 30px;
+    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "Included";
+    padding-left: 15px;
+    text-align: left;
+    background-color: orange; color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+    content: "Excluded";
+    padding-right: 10px;
+    background-color: #EEEEEE; color: #999999;
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block; width: 17px; margin: 6.5px;
+    background: #FFFFFF;
+    position: absolute; top: 0; bottom: 0;
+    right: 75px;
+    border: 2px solid #999999; border-radius: 20px;
+    transition: all 0.3s ease-in 0s; 
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px; 
 }

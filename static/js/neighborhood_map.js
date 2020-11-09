@@ -35,7 +35,7 @@ NeighborhoodMap.prototype.wrangleData = function() {
 
     // Create polygons from geoJSON data and add them to the map
 	vis.polygons = L.geoJson(geoData).addTo(vis.map)
-		.setStyle({'fillOpacity': 0.1, 'weight': 2});
+		.setStyle({'fillOpacity': 0.1, 'weight': 2, 'className': 'neighborhoodPolygon'});
 
 	// Create dict of Leaflet polygon IDs and neighborhood names flor lookup
 	vis.layerDict = {};
@@ -44,20 +44,67 @@ NeighborhoodMap.prototype.wrangleData = function() {
 	});
 
 
-	// Set up double-click event on neighborhood polygons, but temporarily disable the normal
-	// map double-click event so that it doesn't fire
-	vis.polygons.on('click', (event) => {
-		vis.map.doubleClickZoom.disable();
-		setTimeout(() => {vis.map.doubleClickZoom.enable()}, 500);
-	})
+	if (phoneBrowsing === false) {
+		// Set up double-click event on neighborhood polygons, but temporarily disable the normal
+		// map double-click event so that it doesn't fire
+		vis.polygons.on('click', (event) => {
+			vis.map.doubleClickZoom.disable();
+			setTimeout(() => {vis.map.doubleClickZoom.enable()}, 500);
+		})
 
-	// On polygon double-click, zoom to/highlight polygon (as well as display eviction filings as markers)
-	vis.polygons.on('dblclick', (event) => {
-	    vis.zoomToNeighborhood(event.sourceTarget.feature.properties.SPA_NAME);
-	    vis.map.doubleClickZoom.enable();
-	});
+		// On polygon double-click, zoom to/highlight polygon (as well as display eviction filings as markers)
+		vis.polygons.on('dblclick', (event) => {
+			if (vis.featuredNeighborhood === event.sourceTarget.feature.properties.SPA_NAME) {
+				vis.resetZoom();
+			}
+			else {
+		    	vis.zoomToNeighborhood(event.sourceTarget.feature.properties.SPA_NAME);
+			}
+		    vis.map.doubleClickZoom.enable();
+		});
+	}
+	else {
+		vis.polygons.on('click', (event) => {
+			if (vis.featuredNeighborhood === event.sourceTarget.feature.properties.SPA_NAME) {
+				vis.resetZoom();
+			}
+			else {
+		    	vis.zoomToNeighborhood(event.sourceTarget.feature.properties.SPA_NAME);
+			}
+		});
+	}
+
+	vis.setInfoBox();
+	vis.setLegend();
 
 };
+
+
+NeighborhoodMap.prototype.resetZoom = function() {
+	const vis = this;
+
+	vis.featuredNeighborhood = null;
+
+	// Reset styling on all polygons
+	vis.polygons
+		.setStyle({'fillOpacity': 0.1, 'weight': 2, 'color': '#3388ff', 'fillColor': '#3388ff', 'fillOpacity': 0.1});
+
+	// Remove any markers
+	vis.markers.forEach(marker => {
+		vis.map.removeLayer(marker);
+	})
+
+	// Reset zoom/view
+	vis.map
+		.setView([41.4993, -81.6944], 11);
+
+	// Reset info box
+	vis.info.update();
+
+	// Remove legend
+	vis.map.removeControl(vis.legend);
+
+}
 
 
 NeighborhoodMap.prototype.zoomToNeighborhood = function(neighborhoodName) {
@@ -66,7 +113,7 @@ NeighborhoodMap.prototype.zoomToNeighborhood = function(neighborhoodName) {
 	vis.featuredNeighborhood = neighborhoodName;
 
 	vis.polygons
-		.setStyle({'fillOpacity': 0.1, 'weight': 2, 'color': '#3388ff', 'fillColor': '#3388ff', 'fillOpacity': 0.1})
+		.setStyle({'fillOpacity': 0.1, 'weight': 2, 'color': '#3388ff', 'fillColor': '#3388ff', 'fillOpacity': 0.1});
 
 	let zoomNeighborhood = vis.polygons.getLayer(vis.layerDict[neighborhoodName]);
 	vis.map.fitBounds(zoomNeighborhood.getBounds());
@@ -102,7 +149,7 @@ NeighborhoodMap.prototype.plotNeighborhoodEvictions = function(neighborhoodName,
 			.setContent(popupContent);
 
 		let marker = new L.CircleMarker([eviction_filing['lat'], eviction_filing['lng']], {
-			fillColor: "#3388ff",
+			fillColor: (eviction_filing['Plaintiff'] === "CMHA") ? "red" : "#3388ff",
             color: "black",
             weight: 1,
             opacity: 1,
@@ -115,6 +162,53 @@ NeighborhoodMap.prototype.plotNeighborhoodEvictions = function(neighborhoodName,
 		vis.markers.push(marker);
 	})
 
+	vis.info.update(neighborhoodName, vis.featuredEvictionData.length);
+	vis.legend.addTo(vis.map);
+
+};
+
+
+NeighborhoodMap.prototype.setInfoBox = function() {
+	const vis = this;
+
+	vis.info = L.control();
+
+	vis.info.onAdd = function(map) {
+	    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+	    this.update();
+	    return this._div;
+	};
+
+	// method that we will use to update the control based on feature properties passed
+	vis.info.update = function(name, count) {
+	    this._div.innerHTML = (name ?
+	        `<b>${name} (${currentYear})</b><br>${count} Evictions`
+	        : phoneBrowsing === true ? '(Tap a neighborhood)' : '(Double-click a neighborhood)');
+	};
+
+	vis.info.addTo(vis.map);
+};
+
+
+NeighborhoodMap.prototype.setLegend = function() {
+	const vis = this;
+
+	vis.legend = L.control({position: 'bottomright'});
+
+	vis.legend.onAdd = function (map) {
+	
+	    vis.legendDiv = L.DomUtil.create('div', 'info legend');
+	    let labels = ["CMHA Plaintiff", "Non-CMHA Plaintiff"];
+	    let colors = ["red", "#3388ff"];
+
+	    // loop through our density intervals and generate a label with a colored square for each interval
+	    for (var i = 0; i < labels.length; i++) {
+	        vis.legendDiv.innerHTML +=
+	            `<i style="background: ${colors[i]}"></i><span style="float:left">${labels[i]}</span><br>`;
+		    }
+
+		return vis.legendDiv;
+	};
 };
 
 

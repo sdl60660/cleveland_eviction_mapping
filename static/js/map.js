@@ -205,7 +205,7 @@ CityMap.prototype.createLegend = function() {
 
     let barHeight = 20;
     let height = 100;
-    let width = 450;
+    let width = phoneBrowsing === true ? 375 : 450;
 
     let colorScale = vis.color;
     if (vis.mapType === "compare") {
@@ -220,7 +220,7 @@ CityMap.prototype.createLegend = function() {
     vis.legendSVG = d3.select(vis.legendSVGid)
         .append("svg")
         .attr("id", `legend-${vis.mapType}`)
-        .attr("width", width + margin.left + margin.right)
+        .attr("width", width)
     const defs = vis.legendSVG.append("defs");
   
     vis.linearGradient = defs.append("linearGradient")

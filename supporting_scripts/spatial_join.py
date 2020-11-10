@@ -7,8 +7,14 @@ import csv
 # Read in evictions data to a dataframe and convert to a geopandas dataframe
 evictions = pd.read_csv('../data/geocoded_eviction_data.csv')
 
+# Remove any rows with missing Property City
 evictions = evictions[evictions['Property City'] != ',']
+
+# Remove any rows that could not be geocoded, or were geocoded incorrectly to the geographic center of the city (in Industrial Valley, at 41.489381, -81.667486)
 evictions = evictions.dropna(subset=['lat', 'lng'])
+evictions = evictions[(evictions['lat'] != 41.489381) & (evictions['lng'] != -81.667486)]
+
+# Add a file year, rather than date for easier filtering on the front-end
 evictions['file_year'] = pd.DatetimeIndex(evictions['File Date']).year
 
 gdf_evictions = gpd.GeoDataFrame(evictions, geometry=gpd.points_from_xy(evictions.lng, evictions.lat))

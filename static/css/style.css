@@ -13,7 +13,7 @@ body {
 	background-color: #f9f9f9;
 }
 
-#intro-area > p, #nodelink-intro, #network-intro {
+#intro-area p, #nodelink-intro, #network-intro {
     font-family: 'Lora', 'Merriweather', 'Playfair Display', "Helvetica Neue";
 }
 

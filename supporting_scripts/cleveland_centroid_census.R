@@ -24,9 +24,9 @@ block_group_demos <- get_acs(geography="block group",
                        county=035,
                        year=2018,
                        variables=c(pop ="B01003_001", total_HH ="B11001_001", 
-                       total_white_HH="B11001H_001",latino = "B03003_003",
-                       black = "B02001_003", white = "B02001_002",
-                       renters="B25003_003",owners="B25003_002",
+                       total_white_HH="B11001H_001", latino = "B03003_003",
+                       black = "B02001_003", white = "B02001_002", asian="B02001_005",
+                       renters="B25003_003", owners="B25003_002",
                        total_tenure="B25003_001",med_house_val="B25077_001",
                        med_hh_inc="B19013_001", med_cont_rent="B25058_001",
                        occ_status="B25002_001",vacant="B25002_003",
@@ -54,5 +54,5 @@ block_group_demos <- get_acs(geography="block group",
 centroid_demos <- cle_centroids %>%
   left_join(block_group_demos, by="GEOID")
 
-st_write(centroid_demos, "cle_centroid_demos.geojson")
+st_write(centroid_demos, "../data/cle_centroid_demos.geojson")
 

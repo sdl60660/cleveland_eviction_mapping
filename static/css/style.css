@@ -163,19 +163,21 @@ strong {
     margin: auto;
 }
 
-.range-value{
+.range-value {
     position: absolute;
+    
+}
+
+#year-slider-label {
     top: 110%;
+}
+
+#map-year-slider-label {
+    bottom: 275%;
 }
 
 
 @media (max-width: 1100px) {
-    /*#sections {*/
-        /*width: 0px;*/
-        /*top: 0;*/
-        /*left: 50;*/
-        /*z-index: 50;*/
-    /*}*/
 
     .range-value span {
         font-size: 16px;

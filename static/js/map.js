@@ -121,8 +121,6 @@ CityMap.prototype.updateVis = function() {
                 vis.orangeColorScalar*1000*d3.max(geoData.features, d => d.properties[vis.mapProperty][currentYear] / d.properties.renters)]);
     }
 
-    console.log(vis.mapType)
-
     vis.mapPath = vis.mapPath
         .data( geoData.features, (d) => d.properties.SPA_NAME)
         .join(

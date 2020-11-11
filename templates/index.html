@@ -120,6 +120,7 @@
                     <option value="housing_value_changes" selected>Change In Avg. Home Value (%, Zillow)</option>
                     <option value="pct_black">Black Residents (%)</option>
                     <option value="pct_latino">Latino Residents (%)</option>
+                    <option value="pct_asian">Asian Residents (%)</option>
                     <option value="pct_white">White Residents (%)</option>
                     <option value="vacancy_rate">Vacancy Rate (%)</option>
                     <option value="renter_rate">Renter Rate (%)</option>
@@ -164,7 +165,13 @@
         <div class="row" style="margin-top: 4vh">
             <div class="col-md-2"></div>
             <div class="col-md-8 viz-area">
-                <div class="row" id="neighborhood-map-area"></div>
+                <div class="row" id="neighborhood-map-area">
+                    <div class="slider-div">
+                        <!-- <span class="control-header" style="margin-bottom: 5px;">Year:</span> -->
+                        <div class="range-value" id="year-slider-label"></div>
+                        <input type="range" class="year-slider" id="year-slider" name="year-select" min="2014" max="2020" step="1" value="2019">
+                    </div>
+                </div>
             </div>
             <div class="col-md-2"></div>
         </div>
@@ -211,8 +218,8 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
     <script src="/static/js/lib/fstdropdown.min.js"></script>
     <script src="/static/js/lib/lodash.js"></script>
-    <script src="/static/js/lib/SliderControl.js"></script>
     <script src="/static/node_modules/leaflet/dist/leaflet.js"></script>
+    <script src="/static/js/lib/SliderControl.js"></script>
     <!--<script src="static/js/d3plus.full.min.js"></script>-->
 
     <!-- Custom JS -->

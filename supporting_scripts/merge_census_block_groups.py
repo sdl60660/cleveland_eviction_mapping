@@ -18,7 +18,7 @@ sjoin_census_blocks = gpd.sjoin(census_blocks.to_crs("EPSG:4326"), neighborhoods
 # print(sjoin_census_blocks.columns)
 
 grouped_sum = sjoin_census_blocks.groupby(["SPA_NAME"]).sum()
-sum_cols = ["pop", "black", "latino", "white", "total_HH", "occ_status", "vacant", "renters", "owners", "total_tenure"]
+sum_cols = ["pop", "asian", "black", "latino", "white", "total_HH", "occ_status", "vacant", "renters", "owners", "total_tenure"]
 grouped_sum = grouped_sum[sum_cols]
 # print(grouped_sum.head())
 
@@ -32,6 +32,7 @@ df = neighborhoods.join(grouped_sum, on="SPA_NAME", how="left").join(grouped_med
 df["pct_black"] = df["black"] / df["pop"]
 df["pct_latino"] = df["latino"] / df["pop"]
 df["pct_white"] = df["white"] / df["pop"]
+df["pct_asian"] = df["asian"] / df["pop"]
 df["vacancy_rate"] = df["vacant"] / df["occ_status"]
 df["renter_rate"] = df["renters"] / df["total_tenure"]
 

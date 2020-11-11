@@ -53,9 +53,9 @@ function determinePhoneBrowsing() {
 // Initialize timeline slider
 function initSliders() {
 
-    const updateSliderLabel = (sliderID, sliderVal) => {
+    const updateSliderLabel = (sliderID, labelID, sliderVal) => {
         const range = document.getElementById(sliderID);
-        const rangeLabel = document.getElementById(`year-slider-label`);
+        const rangeLabel = document.getElementById(labelID);
 
         rangeLabel.innerHTML = `<span>${sliderVal}</span>`;
 
@@ -63,23 +63,25 @@ function initSliders() {
         rangeLabel.style.left = `calc(${newVal}% + (${8 - newVal * 0.15}px))`;
     };
 
-    $("#year-slider").on('input', () => {
-        const range = document.getElementById('year-slider');
-
-        currentYear = range.value;
+    $("#year-slider, #map-year-slider").on('input', (event) => {
+        currentYear = event.target.value;
 
         evictionMap.wrangleData();
         compareMap.wrangleData();
 
-        // bubblePlot.wrangleData();
-        if (typeof neighborhoodMap.featuredNeighborhood !== "undefined") {
+        if (neighborhoodMap.featuredNeighborhood !== null) {
             neighborhoodMap.plotNeighborhoodEvictions(neighborhoodMap.featuredNeighborhood, currentYear);
         }
 
-        updateSliderLabel("year-slider", currentYear);
+        updateSliderLabel("year-slider", "year-slider-label", currentYear);
+        updateSliderLabel("map-year-slider", "map-year-slider-label", currentYear);
+
+        let otherID = event.target.id === "year-slider" ? "map-year-slider" : "year-slider";
+        document.getElementById(otherID).value = event.target.value;
     });
 
-    updateSliderLabel("year-slider", currentYear);
+    updateSliderLabel("year-slider", "year-slider-label", currentYear);
+    updateSliderLabel("map-year-slider", "map-year-slider-label", currentYear);
 }
 
 

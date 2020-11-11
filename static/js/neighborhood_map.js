@@ -76,6 +76,7 @@ NeighborhoodMap.prototype.wrangleData = function() {
 
 	vis.setInfoBox();
 	vis.setLegend();
+	vis.addSlider();
 
 };
 
@@ -210,5 +211,54 @@ NeighborhoodMap.prototype.setLegend = function() {
 		return vis.legendDiv;
 	};
 };
+
+NeighborhoodMap.prototype.addSlider = function() {
+	const vis = this;
+
+	L.Control.MyControl = L.Control.extend({
+		onAdd: function(map) {
+			let el = L.DomUtil.create('div', 'leaflet-bar my-control');
+
+			el.innerHTML = `<div class="range-value" id="map-year-slider-label"></div> \
+            <input type="range" class="year-slider" id="map-year-slider" name="year-select" min="2014" max="2020" step="1" value="2019">`
+
+			return el;
+		},
+
+		onRemove: function(map) {
+			// Nothing to do here
+		}
+	});
+
+	L.control.myControl = function(opts) {
+		return new L.Control.MyControl(opts);
+	}
+
+	vis.mapSlider = L.control.myControl({
+		position: 'bottomleft'
+	}).addTo(vis.map);
+
+	vis.mapSlider.getContainer().addEventListener('mouseover', () => {
+        vis.map.dragging.disable();
+    });
+
+    vis.mapSlider.getContainer().addEventListener('mouseout', () => {
+        vis.map.dragging.enable();
+    });
+
+
+
+// 	let sliderControl = L.control.sliderControl({
+// 		position: "bottomleft",
+// 		minValue: 2014,
+// 		maxValue: 2020
+
+// 		// layer: mylayer
+// 	});
+
+// 	vis.map.addControl(sliderControl);
+
+// 	sliderControl.startSlider();
+}
 
 

@@ -250,8 +250,17 @@ strong {
 
     .range-value{
         position: absolute;
-        top: 75%;
     }
+
+    #year-slider-label {
+        top: 65%;
+    }
+
+    #map-year-slider-label {
+        bottom: 275%;
+    }
+
+
 }
 
 .container {

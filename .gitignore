@@ -1,6 +1,7 @@
 
 cleveland_scraper/.git
 cleveland_scraper/page_source_files
+cleveland_scraper/captcha_key.txt
 
 supporting_scripts/census_api_key.txt
 

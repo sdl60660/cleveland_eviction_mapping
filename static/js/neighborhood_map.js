@@ -131,7 +131,7 @@ NeighborhoodMap.prototype.plotNeighborhoodEvictions = function(neighborhoodName,
 		vis.map.removeLayer(marker);
 	})
 
-	vis.featuredEvictionData = allEvictions.slice().filter(d => d.year === year && d.SPA_NAME === neighborhoodName)
+	vis.featuredEvictionData = allEvictions.slice().filter(d => +d.year === +year && d.SPA_NAME === neighborhoodName)
 	vis.featuredEvictionData.forEach(eviction_filing => {
 
 		let popupContent = `<div style="text-align:center;margin-bottom:-50px;font-size: 14px;"><strong>${eviction_filing["Property Address"]}</strong></div>`;

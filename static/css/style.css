@@ -15,6 +15,7 @@ body {
 
 #intro-area p, #nodelink-intro, #network-intro {
     font-family: 'Lora', 'Merriweather', 'Playfair Display', "Helvetica Neue";
+    font-size: 16px;
 }
 
 h1, h3 {

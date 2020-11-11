@@ -102,6 +102,11 @@ function main() {
         zillowData = allData[1];
         allEvictions = allData[2];
 
+        allEvictions.forEach(d => {
+            let date = new Date(d['File Date'])
+            d.year = +date.getFullYear();
+        })
+
         $(".loadring-container")
             .hide();
 

@@ -55,6 +55,7 @@ strong {
 
 .control-header {
     font-size: 16px;
+    font-weight: bold;
 }
 
 
@@ -119,7 +120,7 @@ strong {
 }
 
 .slider-div {
-    margin-top: 10px;
+    /*margin-top: 10px;*/
     padding: 0;
     text-align: center;
     height: 100%;

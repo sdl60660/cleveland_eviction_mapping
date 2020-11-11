@@ -178,6 +178,73 @@ strong {
     bottom: 275%;
 }
 
+.container {
+    z-index: 2;
+    text-align: center;
+    margin: unset;
+    /*margin: 0;*/
+    /*width: 80%;*/
+}
+
+
+.d3-tip {
+    min-width: 320px;
+    max-width: 480px;
+    background-color: white;
+    color: black;
+    border-radius: 5px;
+    border: 1px solid black;
+    z-index: 100;
+    padding: 12px;
+    line-height: 1;
+}
+
+.icon-img {
+    height: 13px;
+    width: 13px;
+    margin-bottom: 2px;
+}
+
+hr {
+    width: 65%;
+    background-color: #bbb !important;
+    color: #bbb !important;
+    border: solid 0.2px #bbb !important;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+div.info {
+    background-color: white;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-size: 14px;
+    min-width: 150px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+.legend {
+    line-height: 18px;
+    color: #555;
+}
+
+.legend i {
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin-right: 8px;
+    border: 1px solid black;
+    border-radius: 15px;
+    opacity: 0.5;
+}
+
 
 @media (max-width: 1100px) {
 
@@ -260,74 +327,11 @@ strong {
         bottom: 275%;
     }
 
+    .d3-tip {
+        min-width: 250px;
+        font-size: 13px;
+    }
 
-}
-
-.container {
-	z-index: 2;
-    text-align: center;
-    margin: unset;
-    /*margin: 0;*/
-    /*width: 80%;*/
-}
-
-
-.d3-tip {
-  min-width: 320px;
-  max-width: 480px;
-	background-color: white;
-	color: black;
-	border-radius: 5px;
-	border: 1px solid black;
-	z-index: 100;
-    padding: 12px;
-    line-height: 1;
-}
-
-.icon-img {
-	height: 13px;
-	width: 13px;
-	margin-bottom: 2px;
-}
-
-hr {
-    width: 65%;
-    background-color: #bbb !important;
-    color: #bbb !important;
-    border: solid 0.2px #bbb !important;
-}
-
-.noselect {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-div.info {
-    background-color: white;
-    padding: 4px 8px;
-    border-radius: 5px;
-    font-size: 14px;
-    min-width: 150px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
-}
-
-.legend {
-    line-height: 18px;
-    color: #555;
-}
-
-.legend i {
-    width: 16px;
-    height: 16px;
-    float: left;
-    margin-right: 8px;
-    border: 1px solid black;
-    border-radius: 15px;
-    opacity: 0.5;
 }
 
 

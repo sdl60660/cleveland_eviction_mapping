@@ -112,7 +112,11 @@ function main() {
         monthlyCountMap = d3.rollups(allEvictions, 
             v => v.length, 
             d => d.SPA_NAME, 
-            d => `${new Date(d['File Date']).getMonth()}/01/${new Date(d['File Date']).getFullYear()}`);
+            d => {
+                let date = new Date(d['File Date'])
+                let month = parseInt(date.getMonth())+1
+                return `${ String("00" + month).slice(-2) }/01/${date.getFullYear()}`
+            });
 
 
         $(".loadring-container")
@@ -127,6 +131,7 @@ function main() {
         // bubblePlot = new BubblePlot("#bubbleplot-area");
 
         neighborhoodMap = new NeighborhoodMap("neighborhood-map-area");
+        // timelineChart = new LineChart("#timeline-area");
 
         initSliders();
 

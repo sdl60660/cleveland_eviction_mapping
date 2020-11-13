@@ -220,7 +220,7 @@ NeighborhoodMap.prototype.addSlider = function() {
 			let el = L.DomUtil.create('div', 'leaflet-bar my-control');
 
 			el.innerHTML = `<div class="range-value" id="map-year-slider-label"></div> \
-            <input type="range" class="year-slider" id="map-year-slider" name="year-select" min="2014" max="2020" step="1" value="2019">`
+            <input type="range" class="year-slider" id="map-year-slider" name="year-select" min="2013" max="2020" step="1" value="2019">`
 
 			return el;
 		},

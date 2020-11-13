@@ -2,14 +2,14 @@
 import csv
 
 
-with open('../data/eviction_data.csv', 'r') as f:
+with open('../data/raw_data.csv', 'r') as f:
 	eviction_data = [x for x in csv.DictReader(f)]
 
 cleaned_data = {}
 for case in eviction_data:
 	if "EVICTION" in case['Action']:
 		case['Property City'] = case['Property City'].strip()
-		if case['Property City'] = ',':
+		if case['Property City'] == ',':
 			case['Property City'] = 'Cleveland, OH'
 		case['Plaintiff City'] = case['Plaintiff City'].strip()
 		if '' in case.keys():

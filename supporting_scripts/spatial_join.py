@@ -65,7 +65,7 @@ with open('../data/cleveland_neighborhood_home_values.csv', 'r') as f:
 
 
 for x, row in enumerate(geojson_data['features']):
-	year_range = range(2014,2021)
+	year_range = range(2011,2021)
 	eviction_totals = {}
 	filtered_eviction_totals = {}
 	housing_value_changes = {}

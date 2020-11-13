@@ -9,6 +9,7 @@ const phoneBrowsingCutoff = 1100;
 let geoData = null;
 let zillowData = null;
 let allEvictions = null;
+let monthlyCountMap = null;
 
 // Init Data
 let currentYear = 2019;
@@ -106,6 +107,13 @@ function main() {
             let date = new Date(d['File Date'])
             d.year = +date.getFullYear();
         })
+
+        // Gets a monthly count of eviction filings by neighborhood (rounds all dates to the first of the month for use on charts)
+        monthlyCountMap = d3.rollups(allEvictions, 
+            v => v.length, 
+            d => d.SPA_NAME, 
+            d => `${new Date(d['File Date']).getMonth()}/01/${new Date(d['File Date']).getFullYear()}`);
+
 
         $(".loadring-container")
             .hide();

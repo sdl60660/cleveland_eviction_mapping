@@ -1,6 +1,4 @@
-// d3 = require("d3@5");
-// d3 = require("d3@6");
-// import d3_colorLegend from "https://api.observablehq.com/@d3/color-legend.js?v=3";
+
 
 CityMap = function(_parentElement, _mapType) {
     this.parentElement = _parentElement;

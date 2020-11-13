@@ -4,7 +4,7 @@ import json
 from geocodio import GeocodioClient
 
 
-with open('../data/supplementary_cleaned_eviction_data.csv', 'r') as f:
+with open('../data/cleaned_eviction_data.csv', 'r') as f:
 	eviction_data = [x for x in csv.DictReader(f)]
 
 API_KEY = "fdf7422c5587c95ff9f3c9289fd2f79f14df984"
@@ -39,7 +39,7 @@ while current_index < total_records:
 
 	current_index += chunk_size
 
-with open('../data/supplementary_geocoded_eviction_data.csv', 'w') as f:
+with open('../data/geocoded_eviction_data.csv', 'w') as f:
 	out_csv = csv.DictWriter(f, fieldnames=list(out_records[0].keys()))
 	out_csv.writeheader()
 	for row in out_records:

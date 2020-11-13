@@ -3,3 +3,6 @@ gunicorn
 pandas
 numpy
 geopandas
+selenium==3.8.1
+bs4
+anticaptchaofficial==1.0.26

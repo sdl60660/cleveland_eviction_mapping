@@ -188,13 +188,16 @@ strong {
 
 
 .d3-tip {
+    z-index: 100;
+}
+
+.map-tip {
     min-width: 320px;
     max-width: 480px;
     background-color: white;
     color: black;
     border-radius: 5px;
     border: 1px solid black;
-    z-index: 100;
     padding: 12px;
     line-height: 1;
 }
@@ -327,7 +330,7 @@ div.info {
         bottom: 275%;
     }
 
-    .d3-tip {
+    .map-tip {
         min-width: 250px;
         font-size: 13px;
     }

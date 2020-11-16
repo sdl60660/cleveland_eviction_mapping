@@ -15,6 +15,8 @@ let monthlyCountMap = null;
 let currentYear = 2019;
 let includeCMHA = true;
 
+let featuredNeighborhood = null;
+
 // ======== END GLOBALS ======== //
 
 // Determine whether to enter phoneBrowsing mode based on browser window width or browser type (uses phoneBrowsingCutoff as threshold of window width)
@@ -70,8 +72,8 @@ function initSliders() {
         evictionMap.wrangleData();
         compareMap.wrangleData();
 
-        if (neighborhoodMap.featuredNeighborhood !== null) {
-            neighborhoodMap.plotNeighborhoodEvictions(neighborhoodMap.featuredNeighborhood, currentYear);
+        if (featuredNeighborhood !== null) {
+            neighborhoodMap.plotNeighborhoodEvictions(featuredNeighborhood, currentYear);
         }
 
         updateSliderLabel("year-slider", "year-slider-label", currentYear);
@@ -108,15 +110,29 @@ function main() {
             d.year = +date.getFullYear();
         })
 
-        // Gets a monthly count of eviction filings by neighborhood (rounds all dates to the first of the month for use on charts)
-        monthlyCountMap = d3.rollups(allEvictions, 
+        // Gets a yearly count of eviction filings by neighborhood (rounds all dates to the first of the month for use on charts)
+        yearlyCountMap = d3.rollups(allEvictions, 
             v => v.length, 
             d => d.SPA_NAME, 
             d => {
                 let date = new Date(d['File Date'])
-                let month = parseInt(date.getMonth())+1
-                return `${ String("00" + month).slice(-2) }/01/${date.getFullYear()}`
+                // let month = parseInt(date.getMonth())+1
+                // return `${ String("00" + month).slice(-2) }/01/${date.getFullYear()}`
+                return date.getFullYear()
             });
+
+        fullCityRollup = d3.rollups(allEvictions,
+            v => v.length,
+            d => {
+                let date = new Date(d['File Date'])
+                // let month = parseInt(date.getMonth())+1
+                // return `${ String("00" + month).slice(-2) }/01/${date.getFullYear()}`
+                return date.getFullYear()
+            });
+
+        yearlyCountMap.push(["Cleveland", fullCityRollup])
+
+        console.log(yearlyCountMap);
 
 
         $(".loadring-container")
@@ -131,7 +147,7 @@ function main() {
         // bubblePlot = new BubblePlot("#bubbleplot-area");
 
         neighborhoodMap = new NeighborhoodMap("neighborhood-map-area");
-        // timelineChart = new LineChart("#timeline-area");
+        timelineChart = new LineChart("#timeline-area");
 
         initSliders();
 

@@ -25,9 +25,9 @@ CityMap.prototype.initVis = function() {
         .append("svg")
         .attr("viewBox", [0, 0, vis.width, vis.height]);
 
-    vis.orangeColorScalar = 0.6;
+    vis.orangeColorScalar = 0.65;
     vis.color = d3.scaleLinear()
-        .range(['#FFE4B2', 'orange']);
+        .range(['#fff6e6', '#ffedcc', 'orange']);
 
     vis.projection = d3.geoAlbersUsa()
         .fitExtent([[20, 20], [vis.width-20, vis.height-20]], geoData);
@@ -39,7 +39,7 @@ CityMap.prototype.initVis = function() {
 
     // Initialize hover tooltip on nodes
     vis.tip = d3.tip()
-        .attr("class", "d3-tip")
+        .attr("class", "d3-tip map-tip")
         // .offset([-15, 0])
         .html((d) => {
 
@@ -75,6 +75,7 @@ CityMap.prototype.initVis = function() {
 
             return outputString
         });
+
     vis.svg.call(vis.tip);
 
     vis.mapPath = vis.svg.append("g")
@@ -115,7 +116,8 @@ CityMap.prototype.updateVis = function() {
         vis.mapProperty = vis.eviction_field;
 
         vis.color
-            .domain([1000*d3.min(geoData.features, d => d.properties[vis.mapProperty][currentYear] / d.properties.renters), 
+            .domain([1000*d3.min(geoData.features, d => d.properties[vis.mapProperty][currentYear] / d.properties.renters),
+                1000*d3.min(geoData.features.filter(d => d.properties.SPA_NAME !== "Riverside" && d.properties.SPA_NAME !== "Cuyahoga Valley"), d => d.properties[vis.mapProperty][currentYear] / d.properties.renters),
                 vis.orangeColorScalar*1000*d3.max(geoData.features, d => d.properties[vis.mapProperty][currentYear] / d.properties.renters)]);
     }
 
@@ -156,6 +158,7 @@ CityMap.prototype.updateVis = function() {
                 })
                 .on('click', (d) => {
                     neighborhoodMap.zoomToNeighborhood(d.properties.SPA_NAME);
+                    timelineChart.wrangleData();
                 })
                 .on('mouseover', (d,i,n) => {
                     let truePropertyVal = $(n[i]).attr("truePropertyVal");
@@ -257,7 +260,7 @@ CityMap.prototype.createLegend = function() {
         vis.legendSVGid = "#compare-map-legend";
     }
     else {
-        colorScale.domain([vis.color.domain()[0], vis.color.domain()[1]/vis.orangeColorScalar]);
+        colorScale.domain([vis.color.domain()[0], vis.color.domain()[1], vis.color.domain()[2]/vis.orangeColorScalar]);
         vis.legendSVGid = "#eviction-map-legend";
     }
 
@@ -322,7 +325,7 @@ CityMap.prototype.createLegend = function() {
         .style("font-size", "12px")
         .text(() => {
             if (vis.mapType === "evictions") {
-                return d3.format("0.1f")(colorScale.domain()[1]);
+                return d3.format("0.1f")(colorScale.domain()[2]);
             }
             else if (selectVal === "housing_value_changes") {
                 return d3.format("+0.1%")(colorScale.domain()[2]);
@@ -342,7 +345,7 @@ CityMap.prototype.createLegend = function() {
         .attr("text-anchor", "middle")
         .text(() => vis.mapType === "evictions" ? 
             `Evictions per 1,000 Renter Households (${currentYear})`
-            : selectVal === "housing_value_changes" ? `Change in Home Value (${currentYear-1}-${currentYear-2000})` : selectText);
+            : selectVal === "housing_value_changes" ? `Change in Avg. Home Value (${currentYear-1} to ${currentYear})` : selectText);
 
 
     let axisDomain = colorScale.domain().length === 3 ? [colorScale.domain()[0], colorScale.domain()[2]] : [colorScale.domain()[0], colorScale.domain()[1]];

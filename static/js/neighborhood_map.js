@@ -23,7 +23,6 @@ NeighborhoodMap.prototype.initVis = function() {
     // Set max bounds
 	vis.map.setMaxBounds(vis.map.getBounds());
 
-	vis.featuredNeighborhood = null;
 	vis.markers = [];
 
     vis.wrangleData();
@@ -54,18 +53,20 @@ NeighborhoodMap.prototype.wrangleData = function() {
 
 		// On polygon double-click, zoom to/highlight polygon (as well as display eviction filings as markers)
 		vis.polygons.on('dblclick', (event) => {
-			if (vis.featuredNeighborhood === event.sourceTarget.feature.properties.SPA_NAME) {
+			if (featuredNeighborhood === event.sourceTarget.feature.properties.SPA_NAME) {
 				vis.resetZoom();
 			}
 			else {
 		    	vis.zoomToNeighborhood(event.sourceTarget.feature.properties.SPA_NAME);
 			}
+			timelineChart.wrangleData();
 		    vis.map.doubleClickZoom.enable();
 		});
 	}
 	else {
 		vis.polygons.on('click', (event) => {
-			if (vis.featuredNeighborhood === event.sourceTarget.feature.properties.SPA_NAME) {
+			timelineChart.wrangleData();
+			if (featuredNeighborhood === event.sourceTarget.feature.properties.SPA_NAME) {
 				vis.resetZoom();
 			}
 			else {
@@ -84,7 +85,7 @@ NeighborhoodMap.prototype.wrangleData = function() {
 NeighborhoodMap.prototype.resetZoom = function() {
 	const vis = this;
 
-	vis.featuredNeighborhood = null;
+	featuredNeighborhood = null;
 
 	// Reset styling on all polygons
 	vis.polygons
@@ -111,7 +112,7 @@ NeighborhoodMap.prototype.resetZoom = function() {
 NeighborhoodMap.prototype.zoomToNeighborhood = function(neighborhoodName) {
 	const vis = this;
 
-	vis.featuredNeighborhood = neighborhoodName;
+	featuredNeighborhood = neighborhoodName;
 
 	vis.polygons
 		.setStyle({'fillOpacity': 0.1, 'weight': 2, 'color': '#3388ff', 'fillColor': '#3388ff', 'fillOpacity': 0.1});
@@ -220,7 +221,7 @@ NeighborhoodMap.prototype.addSlider = function() {
 			let el = L.DomUtil.create('div', 'leaflet-bar my-control');
 
 			el.innerHTML = `<div class="range-value" id="map-year-slider-label"></div> \
-            <input type="range" class="year-slider" id="map-year-slider" name="year-select" min="2013" max="2020" step="1" value="2019">`
+            <input type="range" class="year-slider" id="map-year-slider" name="year-select" min="2011" max="2020" step="1" value="2019">`
 
 			return el;
 		},

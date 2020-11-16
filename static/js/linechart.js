@@ -41,12 +41,12 @@ LineChart.prototype.initVis = function() {
         .offset([10, 0])
         .html((d) => {
 
-            let outputString = '<table>';
+            let outputString = '<table><tbody>';
             // outputString += `<div style="text-align: center;"><span><strong>${d.properties.SPA_NAME}</strong></span></div><br>`;
             outputString += `<tr><td>Year: </td><td style="padding-left: 10px; float: right;">${d.year}</td></tr><br>`;
             outputString += `<tr><td>Eviction Filings:</td><td style="padding-left: 10px; float: right;">${d3.format(",")(d.filing_count)}</td></tr>`;
 
-            outputString += '</table>';
+            outputString += '</tbody></table>';
 
             return outputString
         });
@@ -84,12 +84,12 @@ LineChart.prototype.initVis = function() {
 LineChart.prototype.wrangleData = function() {
     const vis = this;
 
-    featuredNeighborhood = featuredNeighborhood === null ? "Cleveland" : featuredNeighborhood;
+    vis.chartNeighborhood = featuredNeighborhood === null ? "Cleveland" : featuredNeighborhood;
 
     vis.data = yearlyCountMap
-    	.filter(d => d[0] === featuredNeighborhood)[0][1]
+    	.filter(d => d[0] === vis.chartNeighborhood)[0][1]
     	.map(d => { 
-    		return {'neighborhood': featuredNeighborhood, 'year': d[0], 'filing_count': d[1]}
+    		return {'neighborhood': vis.chartNeighborhood, 'year': d[0], 'filing_count': d[1]}
     	})
     	.sort((a,b) => a.year - b.year);
     
@@ -154,6 +154,6 @@ LineChart.prototype.updateVis = function() {
 	    );
 
 	vis.xAxisLabel
-		.text(`Eviction Filings Over Time in ${featuredNeighborhood}`);
+		.text(`Eviction Filings Over Time in ${vis.chartNeighborhood}`);
 
 }

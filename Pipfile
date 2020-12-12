@@ -1,0 +1,23 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+gunicorn = "*"
+pandas = "*"
+numpy = "*"
+geopandas = "*"
+selenium = "==3.8.1"
+bs4 = "*"
+anticaptchaofficial = "==1.0.26"
+Flask = "*"
+fiona = "*"
+pyproj = "*"
+shapely = "*"
+setuptools = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.7.9"

@@ -4,6 +4,7 @@ import geopandas as gpd
 import json
 import csv
 
+
 # Read in evictions data to a dataframe and convert to a geopandas dataframe
 evictions = pd.read_csv('../data/geocoded_eviction_data.csv')
 
@@ -17,21 +18,22 @@ evictions = evictions[(evictions['lat'] != 41.489381) & (evictions['lng'] != -81
 # Add a file year, rather than date for easier filtering on the front-end
 evictions['file_year'] = pd.DatetimeIndex(evictions['File Date']).year
 
-gdf_evictions = gpd.GeoDataFrame(evictions, geometry=gpd.points_from_xy(evictions.lng, evictions.lat))
+gdf_evictions = gpd.GeoDataFrame(evictions, geometry=gpd.points_from_xy(evictions.lng, evictions.lat), crs="EPSG:4326")
 
 
 # Read in neighborhoods geojson file
 geojson_file = "../data/corrected_cleveland_neighborhoods.geojson"
-neighborhoods = gpd.read_file(geojson_file)
+neighborhoods = gpd.read_file(geojson_file, crs="EPSG:4326")
 print(neighborhoods.head())
 
 
 # Spatial join the evictions to neighborhoods
-sjoin_evictions = gpd.sjoin(gdf_evictions.set_crs("EPSG:4326"), neighborhoods, op="within")
+sjoin_evictions = gpd.sjoin(gdf_evictions, neighborhoods, op="within")
 print(sjoin_evictions.head())
 
 # Save a copy of evictions with attached neighborhoods
 sjoin_evictions.to_csv('../data/geocoded_eviction_data_with_neighborhoods.csv')
+sjoin_evictions.to_csv('../static/data/geocoded_eviction_data_with_neighborhoods.csv')
 
 
 # Group spatial-joined dataframe by neighborhood (SPA_NAME) and year

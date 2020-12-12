@@ -110,7 +110,6 @@ function main() {
             d.year = +date.getFullYear();
         })
 
-        // Gets a yearly count of eviction filings by neighborhood (rounds all dates to the first of the month for use on charts)
         yearlyCountMap = d3.rollups(allEvictions, 
             v => v.length, 
             d => d.SPA_NAME, 

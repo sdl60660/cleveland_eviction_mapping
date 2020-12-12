@@ -14,7 +14,7 @@ census_block_geojson = "../data/cle_centroid_demos.geojson"
 census_blocks = gpd.read_file(census_block_geojson)
 
 
-sjoin_census_blocks = gpd.sjoin(census_blocks.to_crs("EPSG:4326"), neighborhoods.to_crs("EPSG:4326"), op="within")
+sjoin_census_blocks = gpd.sjoin(census_blocks, neighborhoods, op="within")
 # print(sjoin_census_blocks.columns)
 
 grouped_sum = sjoin_census_blocks.groupby(["SPA_NAME"]).sum()

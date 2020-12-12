@@ -12,12 +12,9 @@ selenium = "==3.8.1"
 bs4 = "*"
 anticaptchaofficial = "==1.0.26"
 Flask = "*"
-fiona = "*"
-pyproj = "*"
-shapely = "*"
 setuptools = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.7.9"
+python_version = "3.8.2"

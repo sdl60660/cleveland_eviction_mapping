@@ -10,11 +10,11 @@ numpy = "*"
 geopandas = "*"
 selenium = "==3.8.1"
 bs4 = "*"
+pygeocodio = "*"
 anticaptchaofficial = "==1.0.26"
 Flask = "*"
-setuptools = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.8.2"
+python_version = "3.8"

@@ -12,7 +12,7 @@ LineChart.prototype.initVis = function() {
     // Set height/width of viewBox
     vis.margin = {top: 20, right: 15, bottom: 45, left: 40};
     vis.width = 800 - vis.margin.left - vis.margin.right;
-    vis.height = 260 - vis.margin.top - vis.margin.bottom;
+    vis.height = 180 - vis.margin.top - vis.margin.bottom;
 
     // Initialize SVG
     vis.svg = d3.select(vis.parentElement)
@@ -72,7 +72,7 @@ LineChart.prototype.initVis = function() {
         .attr("transform", `translate(${vis.width / 2}, ${vis.height + 42})`)
         .attr("text-anchor", "middle")
         .attr("class", "axis-label")
-        .style("font-size", "15px")
+        .style("font-size", "14px")
         .style("font-family", "aktiv-grotesk")
         .text("");
 

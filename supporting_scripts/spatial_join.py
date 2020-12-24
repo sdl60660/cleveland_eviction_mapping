@@ -33,8 +33,19 @@ print(sjoin_evictions.head())
 
 # Save a copy of evictions with attached neighborhoods
 sjoin_evictions.to_csv('../data/geocoded_eviction_data_with_neighborhoods.csv')
-sjoin_evictions.to_csv('../static/data/geocoded_eviction_data_with_neighborhoods.csv')
 
+# Create/save files for viz and kaggle upload
+viz_file_columns = ['Case Number', 'Case Status', 'File Date', 'Property Address', 'Plaintiff', 'Disposition Status', 'lat', 'lng', 'SPA_NAME']
+kaggle_file_columns = ['Case Number', 'Case Status', 'File Date', 'Action', 'Defendants', 'Property Address', 'Property City', 'Plaintiff', 'Plaintiff Address', 'Plaintiff City', 'Costs', 'Disposition Date', 'lat', 'lng', 'SPA_NAME', 'Last Updated']
+
+sjoin_evictions[viz_file_columns].to_csv('../static/data/geocoded_eviction_data_with_neighborhoods.csv', index=False)
+
+kaggle_df = sjoin_evictions[kaggle_file_columns]
+kaggle_df['Defendants'] = '[Redacted]'
+kaggle_df['Neighborhood'] = kaggle_df['SPA_NAME']
+kaggle_df = kaggle_df.drop(['SPA_NAME'], axis=1)
+
+kaggle_df.to_csv('../data/redacted_kaggle_upload.csv', index=False)
 
 # Group spatial-joined dataframe by neighborhood (SPA_NAME) and year
 grouped = sjoin_evictions.groupby(["SPA_NAME", "file_year"]).size()
@@ -67,7 +78,7 @@ with open('../data/cleveland_neighborhood_home_values.csv', 'r') as f:
 
 
 for x, row in enumerate(geojson_data['features']):
-	year_range = range(2011,2021)
+	year_range = range(2011, 2021)
 	eviction_totals = {}
 	filtered_eviction_totals = {}
 	housing_value_changes = {}

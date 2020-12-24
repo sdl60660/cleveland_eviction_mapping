@@ -1,4 +1,4 @@
-python clean_eviction_data.py
+python merge_new_updated_data.py
 python geocode_eviction_data.py
 
 python spatial_join.py

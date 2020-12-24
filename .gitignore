@@ -5,6 +5,8 @@ cleveland_scraper/captcha_key.txt
 
 supporting_scripts/census_api_key.txt
 
+supporting_scripts/config/settings.py
+
 data/kaggle_upload.csv
 data/redacted_kaggle_upload.csv
 

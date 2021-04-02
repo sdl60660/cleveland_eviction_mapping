@@ -1,0 +1,266 @@
+<!DOCTYPE HTML>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+
+    <!-- Primary Meta Tags -->
+    <title>Cleveland Eviction Mapping</title>
+    <meta name="title" content="Cleveland Eviction Mapping">
+    <meta name="description" content="">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cleveland-evictions.samlearner.com/">
+    <meta property="og:title" content="Cleveland Eviction Mapping">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="https://cleveland-evictions.samlearner.com/static/images/preview_image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://cleveland-evictions.samlearner.com/">
+    <meta property="twitter:title" content="Cleveland Eviction Mapping">
+    <meta property="twitter:description" content="">
+    <meta property="twitter:image" content="https://cleveland-evictions.samlearner.com/static/images/preview_image.png">
+
+    <link rel="icon" href='/static/images/cleveland.svg'>
+
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="static/node_modules/leaflet/dist/leaflet.css" />
+
+    <!-- jQuery UI CSS -->
+    <script src="/static/bower_components/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="/static/css/jquery-ui.min.css">
+    <link rel="stylesheet" href="/static/css/jquery-ui.structure.min.css">
+    <link rel="stylesheet" href="/static/css/jquery-ui.theme.min.css">
+    <link rel="stylesheet" href="/static/css/d3-tip.css">
+    <link rel="stylesheet" href="/static/css/source-code-pro.css">
+    <link rel="stylesheet" href="/static/bower_components/chosen/chosen.min.css">
+    <link rel="stylesheet" href="/static/css/fstdropdown.min.css">
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+    <link rel="stylesheet" href="https://use.typekit.net/qnl7egi.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/1e59e4c612.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="main-site-link">
+            <a href="https://bit.ly/main-project-site">
+                <button>More Projects</button>
+            </a>
+        </div>
+    </div>
+
+    <!-- Define Stripe Pattern -->
+    <svg height="10" width="10" xmlns="http://www.w3.org/2000/svg" version="1.1"> <defs> <pattern id="diagonal-stripe-1" patternUnits="userSpaceOnUse" width="10" height="10"> <image xlink:href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+CiAgPHJlY3Qgd2lkdGg9JzEwJyBoZWlnaHQ9JzEwJyBmaWxsPSd3aGl0ZScvPgogIDxwYXRoIGQ9J00tMSwxIGwyLC0yCiAgICAgICAgICAgTTAsMTAgbDEwLC0xMAogICAgICAgICAgIE05LDExIGwyLC0yJyBzdHJva2U9J2JsYWNrJyBzdHJva2Utd2lkdGg9JzEnLz4KPC9zdmc+Cg==" x="0" y="0" width="10" height="10"> </image> </pattern> </defs> </svg>
+
+    <!-- Bootstrap grid setup -->
+
+    <!-- Load Wheel -->
+    <div class="loadring-container" style="text-align: center">
+        <div class="lds-ring" style="margin-top: 30vh;"><div></div><div></div><div></div><div></div></div>
+    </div>
+
+    <!-- Intro Text Wrapper/Tile -->
+    <div class="tile-wrapper" id="intro-wrapper" style="visibility: hidden">
+    <div class="container viz-tile" id="intro-tile" style="text-align: center; margin: auto;">
+        <div class="col-md-1"></div>
+        <div class="col-md-10" id="intro-area" style="text-align:left;">
+            <div class="row" style="text-align: center">
+                <h1><strong>Mapping Ten Years of Eviction Filings in Cleveland</strong></h1>
+            </div>
+            <br><br>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <p>
+                        Ten years of eviction filings in the Cleveland Municipal Housing Court are mapped by neighborhood below. While not every eviction reaches the courtroom, these filings can offer a representative picture of the neighborhoods most affected.
+                    </p>
+                    <p>
+                        Demographic and property-value data, from the U.S. Census and Zillow are mapped on the right for comparison purposes. Eviction filings by the Cleveland Metropolitan Housing Authority (CMHA), which account for roughly 14% of all eviction filings during this period, can be filtered out using the toggle at the top. Clicking any neighborhood will plot its eviction filings in detail on the map at the bottom.
+                    </p>
+                    <!-- <br>
+                    <p>
+                        Some more intro text here.
+                    </p> -->
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <!-- Third Wrapper/Tile -->
+    <div class="tile-wrapper" id="map-wrapper" style="margin-top: 8vh; visibility: hidden;">
+    <div class="container viz-tile" id="map-tile">
+        <div class="row">
+            <!-- <div class="col-md-1"></div> -->
+            <div class="col-md-4 col-xs-12" style="padding:0;">
+                <div class="slider-div">
+                    <span class="control-header" style="margin-bottom: 5px;">Year:</span>
+                    <div class="range-value" id="year-slider-label"></div>
+                    <input type="range" id="year-slider" name="year-select" min="2011" max="2020" step="1" value="2019">
+                </div>
+            </div>
+            <div class="col-md-2 col-xs-5 mobile-second-row">
+                <span class="control-header">CMHA Evictions:</span>
+                <div class="onoffswitch" style="margin: auto">
+                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="cmha-evictions" tabindex="0" checked>
+                    <label class="onoffswitch-label" for="cmha-evictions">
+                        <span class="onoffswitch-inner"></span>
+                        <span class="onoffswitch-switch"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-7 mobile-second-row" id="feature-select-div">
+                <span class="control-header" style="margin-bottom: 5px;">Compare With:</span><br>
+                <select id="feature-select">
+                    <option value="housing_value_changes" selected>Change In Avg. Home Value (%, Zillow)</option>
+                    <option value="pct_black">Black Residents (%)</option>
+                    <option value="pct_latino">Latino Residents (%)</option>
+                    <option value="pct_asian">Asian Residents (%)</option>
+                    <option value="pct_white">White Residents (%)</option>
+                    <option value="vacancy_rate">Vacancy Rate (%)</option>
+                    <option value="renter_rate">Renter Rate (%)</option>
+                    <option value="med_cont_rent">Median Monthly Rent</option>
+                    <option value="med_house_val">Median Home Value</option>
+                    <option value="med_hh_inc">Median Household Income</option>
+                </select>
+            </div>
+            <!-- <div class="col-md-1"></div> -->
+        </div>
+        <div class="row" style="margin-top: 4vh">
+            <!-- <div class="col-md-1"></div> -->
+            <div class="col-md-6 viz-area">
+                <div class="row" id="eviction-map-area" style="max-height: 67vh"></div>
+                <div class="row" id="eviction-map-legend"></div>
+            </div>
+            <!-- <div class="col-md-2"></div> -->
+            <div class="col-md-6 viz-area">
+                <div class="row" id="compare-map-area" style="max-height: 67vh"></div>
+                <div class="row" id="compare-map-legend"></div>
+            </div>
+            <!-- <div class="col-md-1"></div> -->
+        </div>
+    </div>
+    </div>
+
+
+<!--     <div class="tile-wrapper" id="bubbleplot-wrapper" style="margin-top: 8vh; margin-bottom: 8vh; visibility: hidden;">
+    <div class="container viz-tile" id="bubbleplot-tile">
+        <div class="row" style="margin-top: 4vh">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 viz-area">
+                <div class="row" id="bubbleplot-area"></div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+    </div> -->
+
+    <div class="tile-wrapper" id="neighborhood-map-wrapper" style="margin-top: 2vh; margin-bottom: 10vh; visibility: hidden;">
+    <div class="container viz-tile" id="neighborhood-map-tile">
+        <div class="row" style="margin-top: 4vh">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 viz-area">
+                <div class="row" id="neighborhood-map-area">
+                    <div class="slider-div"></div>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 viz-area">
+                <div class="row" id="timeline-area"></div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+    </div>
+
+    <!-- <div class="spacer" style="min-height: 5vh"></div> -->
+
+    <!-- Footer  -->
+    <div class="container footer" style="text-align:left; max-width: 950px; z-index: 200; margin: auto; visibility: hidden;">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <hr>
+            <br><br>
+            <p>Visualization by <a href="https://www.samlearner.com/" target="_blank">Sam Learner</a> | <a target="_blank" href="mailto:learnersd@gmail.com"><img class="icon-img" src="/static/images/email.svg"></a> | <a href="https://twitter.com/sam_learner" target="_blank"><img class="icon-img" src="/static/images/twitter.svg"></a> | <a href="https://github.com/sdl60660" target="_blank"><img class="icon-img" src="/static/images/github.png"></a></p>
+            <p>Code and data for this project lives <a href="https://github.com/sdl60660/cleveland_eviction_mapping" target="_blank">here</a>. The scraped eviction data lives <a href="https://www.kaggle.com/samlearner/cleveland-eviction-court-filings-20112020" target="_blank">here</a></p>
+            <br>
+            <p><strong>Notes</strong></p>
+            <p>
+                The data on these maps represents total eviction court filings, not total evictions. While the data on eviction filings represented here hopes to present a representative picture of evictions occuring in Cleveland, it almost certainly underrepresents the full universe of evictions occuring. Research has shown that formal eviction filings make up roughly a third of total evictions, as many take place outside of a courthouse.
+            </p>
+            <p>
+                Data for 2020 is incomplete, including court filings up until only December 12, 2020. Complete data will be updated at the end of the year.
+            </p>
+            <p>
+                Older Zillow property value data is unavailable for many neighborhoods. 
+            </p>
+            <br>
+            <p><strong>Sources</strong></p>
+            <p>
+                Eviction court filings were scraped from <a href="https://eservices.cmcoh.org/eservices/home.page.6
+                ">Cleveland Municipal Court filings</a>. Population and demographic data is from the 2018 U.S. Census Bureau ACS-5. Cleveland neighborhood shape file came from <a href="https://www.arcgis.com/home/item.html?id=80205c01f83f4fad840906e4f6072ad5">here</a>. Home value change data came from <a href="https://www.zillow.com/research/data/">Zillow</a>. <a href="https://thenounproject.com/term/cleveland/140004/">Cleveland icon</a> comes from Blake L Ferguson Jr via the Noun Project.
+            </p>
+            <p>Last Updated: December 2020</p>
+
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+
+
+
+    <!-- External JS Libraries -->
+    <script src="/static/js/lib/bootstrap.min.js"></script>
+    <script src="/static/bower_components/jquery-ui/jquery-ui.min.js"></script>
+    <script src="/static/bower_components/chosen/chosen.jquery.min.js"></script>
+    <script src="/static/js/lib/d3.min.js"></script>
+    <script src="/static/js/lib/d3-geo.min.js"></script>
+    <script src="/static/js/lib/d3-geo-projection.v2.min.js"></script>
+    <script src="/static/js/lib/d3-tip.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+    <script src="/static/js/lib/fstdropdown.min.js"></script>
+    <script src="/static/js/lib/lodash.js"></script>
+    <script src="/static/node_modules/leaflet/dist/leaflet.js"></script>
+    <script src="/static/node_modules/d3-array/dist/d3-array.min.js"></script>
+    <script src="/static/js/lib/SliderControl.js"></script>
+    <!--<script src="static/js/d3plus.full.min.js"></script>-->
+
+    <!-- Custom JS -->
+    <script src="/static/js/utils.js"></script>
+
+    <script src="/static/js/neighborhood_map.js"></script>
+    <script src="/static/js/linechart.js"></script>
+    <!-- <script src="/static/js/bubbleplot.js"></script> -->
+    <script src="/static/js/map.js"></script>
+    <script src="/static/js/main.js"></script>
+
+</body>
+</html>
+
+
+
+
+

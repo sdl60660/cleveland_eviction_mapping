@@ -16,8 +16,10 @@ NeighborhoodMap.prototype.initVis = function() {
     	.setView([41.4993, -81.6944], minZoomLevel);
 
     // Add tile layer
-    L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png', {
-	    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+	L.tileLayer('https://{s}.tile.thunderforest.com/neighbourhood/{z}/{x}/{y}.png?apikey={apikey}', {
+		attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+		apikey: '4aaabd65bd1b4acc907723a3a59e92f6',
+		maxZoom: 22
 	}).addTo(vis.map);
 
     // Set max bounds

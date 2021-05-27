@@ -10,4 +10,4 @@ Project was built using:
 * R for gathering ACS demographic data by census block group
 * HTML/CSS/JavaScript/jQuery for basic front-end construction
 * D3/Leaflet for visualizations
-* Heroku for hosting
+* Heroku for hosting 

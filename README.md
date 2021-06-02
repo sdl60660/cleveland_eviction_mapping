@@ -2,7 +2,7 @@
 
 I scraped data from the Cleveland Municipal court site on eviction filings from 2014 to 2020. I gathered population, demographic, and home value data from Zillow and the U.S. Census and mapped the per household eviction filing rates next to various demographics. Below, I included a leaflet map to view addresses/data regarding individual eviction filings in a neighborhood.
 
-Live site: https://cleveland-evictions.herokuapp.com/
+Live site: https://cleveland-evictions.samlearner.com/
 
 Project was built using:
 * Python/Selenium/BeautifulSoup for scraping data
